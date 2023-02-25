@@ -17,7 +17,6 @@ import com.social2023Network.navigation.TopBar
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
-        topBar = { TopBar() },
         bottomBar = { BottomNavBar(navController) },
         content = {
             Box(modifier = Modifier.padding(it)){
@@ -26,10 +25,4 @@ fun MainScreen() {
         },
         backgroundColor = colorResource(id = R.color.white)
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    MainScreen()
 }

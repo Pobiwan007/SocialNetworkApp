@@ -15,8 +15,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.social2023Network.R
+import com.social2023Network.navigation.NavigationItems
+import com.social2023Network.navigation.TopBar
+
 @Composable
 fun MessagesScreen(){
+    TopBar(NavigationItems.Messages.title)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
