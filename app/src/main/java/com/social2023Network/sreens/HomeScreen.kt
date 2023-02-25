@@ -3,35 +3,24 @@ package com.social2023Network.sreens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
-import com.social2023Network.R
+import androidx.compose.ui.unit.dp
+import com.social2023Network.data.Story
+import com.social2023Network.itemsList.ItemStory
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen() {
     Column(
         modifier = Modifier
+            .padding(horizontal = 3.dp)
             .fillMaxSize()
-            .background(colorResource(id = R.color.white))
-            .wrapContentSize(Alignment.Center)
+            .background(Color.White)
     ) {
-        Text(
-            text = "Home Page",
-            fontWeight = FontWeight.Bold,
-            color = Color.Blue,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp
-        )
+        ItemStory(items = listOf(Story(0, "17.02.2023:9:00", "https://vsegda-pomnim.com/uploads/posts/2022-04/1649130983_5-vsegda-pomnim-com-p-prirodnii-landshaft-foto-6.jpg")))
     }
 }
 
