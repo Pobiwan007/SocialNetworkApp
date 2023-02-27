@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tab_items">
+        <item>Main</item>
+        <item>News</item>
+        <item>Anime</item>
+        <item>Music</item>
+        <item>Weather</item>
+    </string-array>
+</resources>

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,8 +20,9 @@ import com.social2023Network.navigation.NavigationItems
 import com.social2023Network.navigation.TopBar
 
 @Composable
-fun MessagesScreen(){
-    TopBar(NavigationItems.Messages.title)
+fun MessagesScreen(title: MutableState<String>, isVisibilityTopBar: MutableState<Boolean>){
+    title.value = "Messages"
+    isVisibilityTopBar.value = true
 
     Column(
         modifier = Modifier
@@ -37,10 +39,4 @@ fun MessagesScreen(){
             fontSize = 25.sp
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MessagesScreenPreview(){
-    MessagesScreen()
 }

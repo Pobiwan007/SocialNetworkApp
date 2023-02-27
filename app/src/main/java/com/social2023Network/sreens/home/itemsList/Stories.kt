@@ -1,4 +1,4 @@
-package com.social2023Network.itemsList
+package com.social2023Network.sreens.home.itemsList
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,7 +34,6 @@ fun ItemStory(items: List<Story>) {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp, bottom = 10.dp, end = 10.dp)
                 .background(Color.White)
         ) {
             itemsIndexed(
@@ -82,9 +81,8 @@ private fun AddStoryTemplate() {
     Card(
         backgroundColor = colorResource(id = R.color.purple_500),
         modifier = Modifier
-            .padding(top = 15.dp, start = 5.dp)
+            .padding(5.dp)
             .clickable {
-
             },
         elevation = 5.dp,
         shape = RoundedCornerShape(10.dp),
