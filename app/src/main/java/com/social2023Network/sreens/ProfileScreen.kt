@@ -18,9 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.social2023Network.R
 
 @Composable
-fun ProfileScreen(title: MutableState<String>, isVisibilityTopBar: MutableState<Boolean>){
-    title.value = "Profile"
-    isVisibilityTopBar.value = true
+fun ProfileScreen(){
 
 
     Column(

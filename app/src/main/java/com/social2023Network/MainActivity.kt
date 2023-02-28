@@ -1,19 +1,13 @@
 package com.social2023Network
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import com.social2023Network.sreens.MainScreen
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MainScreen()
-        }
+        setContentView(R.layout.activity_main)
     }
 }
 

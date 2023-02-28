@@ -10,13 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.navigation.compose.rememberNavController
 import com.social2023Network.R
-import com.social2023Network.navigation.BottomNavBar
-import com.social2023Network.navigation.Navigation
 import com.social2023Network.navigation.TopBar
 
 @Composable
 fun MainScreen() {
-    val navController = rememberNavController()
     val titleTopBar = remember {
         mutableStateOf("Messages")
     }
@@ -25,10 +22,8 @@ fun MainScreen() {
     }
     Scaffold(
         topBar = { TopBar(title = titleTopBar.value, isVisibilityTopBar.value)},
-        bottomBar = { BottomNavBar(navController) },
         content = {
             Box(modifier = Modifier.padding(it)){
-                Navigation(navController = navController, titleTopBar, isVisibilityTopBar)
             }
         },
         backgroundColor = colorResource(id = R.color.white)

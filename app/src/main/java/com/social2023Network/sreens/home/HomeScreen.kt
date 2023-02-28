@@ -11,10 +11,8 @@ import androidx.compose.ui.res.stringArrayResource
 import com.social2023Network.R
 
 @Composable
-fun HomeScreen(title: MutableState<String>, isVisibilityTopBar: MutableState<Boolean>) {
-    isVisibilityTopBar.value = false
+fun HomeScreen() {
     val itemsTab = stringArrayResource(id = R.array.tab_items)
-    title.value = "Home"
     Column(
         modifier = Modifier
             .fillMaxSize()
