@@ -24,8 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.social2023Network.R
-import com.social2023Network.data.Story
-import com.social2023Network.ui.colorBlue
+import com.social2023Network.fragments.entity.Story
 
 @Composable
 fun ItemStory(items: List<Story>) {
@@ -51,30 +50,36 @@ private fun CardStory(item: Story) {
         backgroundColor = Color.White,
         modifier = Modifier.padding(5.dp),
         elevation = 5.dp,
-        shape = RoundedCornerShape(10.dp),
-
-        ) {
+        shape = RoundedCornerShape(10.dp)
+    ) {
         Column(
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            AsyncImage(
-                model = item.content,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(50.dp)
-                    .padding(5.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop,
-            )
+            ProfilePicture(story = item)
             Text(
-                text = item.profile?.secondName.toString(),
+                text = item.profile?.secondName ?: "",
                 style = TextStyle(fontSize = 15.sp),
                 modifier = Modifier.padding(5.dp)
             )
         }
     }
 }
+
+@Composable
+private fun ProfilePicture(story: Story) {
+    AsyncImage(
+        model = story.content,
+        contentDescription = null,
+        modifier = Modifier
+            .size(50.dp)
+            .padding(5.dp)
+            .clip(CircleShape),
+        contentScale = ContentScale.Crop
+    )
+}
+
 
 @Composable
 private fun AddStoryTemplate() {

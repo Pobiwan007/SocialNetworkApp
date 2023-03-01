@@ -1,4 +1,4 @@
-package com.social2023Network.data
+package com.social2023Network.fragments.entity
 
 data class Profile(
     val id: Int,

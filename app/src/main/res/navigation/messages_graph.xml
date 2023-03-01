@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/messages_graph"
+    app:startDestination="@id/message_fragment">
+
+    <fragment
+        android:id="@+id/message_fragment"
+        android:name="com.social2023Network.fragments.FragmentMessages"
+        android:label="FragmentMessages" />
+</navigation>

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.social2023Network.sreens.MessagesScreen
 
 class FragmentMessages : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

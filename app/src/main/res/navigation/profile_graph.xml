@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile_graph"
+    app:startDestination="@id/profile_fragment">
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.social2023Network.fragments.FragmentProfile"
+        android:label="FragmentProfile" >
+        <action
+            android:id="@+id/action_profile_fragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.social2023Network.fragments.NotificationFragment"
+        android:label="NotificationFragment" >
+        <action
+            android:id="@+id/action_notificationFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
+
+
+</navigation>

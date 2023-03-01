@@ -1,6 +1,9 @@
 plugins {
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -64,28 +67,41 @@ android {
         jvmTarget = '1.8'
     }
 }
+kapt {
+    correctErrorTypes = true
+}
 
 dependencies {
-    implementation 'androidx.navigation:navigation-fragment:2.4.1'
+    //dependency injection
+    def hilt = "2.44"
+    implementation("com.google.dagger:hilt-android:$hilt")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt")
+
+    //navigation
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
     def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
     implementation composeBom
     androidTestImplementation composeBom
 
     //compose
-    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui:1.1.0-alpha04'
     implementation 'androidx.compose.material:material'
     implementation 'androidx.compose.ui:ui-tooling-preview'
 
     //imageAsync
     implementation("io.coil-kt:coil-compose:2.2.2")
 
-    //navigation
-    def nav_version = "2.5.3"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-
+    
     //pager
     implementation "com.google.accompanist:accompanist-pager:0.29.1-alpha"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.29.1-alpha"
+
+    //retrofit
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'

@@ -15,8 +15,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import com.social2023Network.data.Profile
-import com.social2023Network.data.Story
+import com.social2023Network.fragments.entity.Profile
+import com.social2023Network.fragments.entity.Story
 import com.social2023Network.sreens.home.itemsList.ItemStory
 import kotlinx.coroutines.launch
 
