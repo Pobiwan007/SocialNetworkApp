@@ -2,8 +2,8 @@ package com.social2023Network.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.social2023Network.network.ApiState
-import com.social2023Network.repository.HomeRepository
+import com.social2023Network.common.network.ApiState
+import com.social2023Network.data.repository.HomeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch

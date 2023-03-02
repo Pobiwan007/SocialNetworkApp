@@ -77,6 +77,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hilt")
     kapt("com.google.dagger:hilt-android-compiler:$hilt")
 
+    //hilt lifecycle
+    def hilt_lifecycle = "1.0.0"
+    implementation("androidx.hilt:hilt-work:$hilt_lifecycle")
+    kapt("androidx.hilt:hilt-compiler:$hilt_lifecycle")
+
     //navigation
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'

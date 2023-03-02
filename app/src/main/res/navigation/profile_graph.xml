@@ -5,7 +5,7 @@
     app:startDestination="@id/profile_fragment">
     <fragment
         android:id="@+id/profile_fragment"
-        android:name="com.social2023Network.fragments.FragmentProfile"
+        android:name="com.social2023Network.presentation.ui.profile.FragmentProfile"
         android:label="FragmentProfile" >
         <action
             android:id="@+id/action_profile_fragment_to_notificationFragment"
@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.social2023Network.fragments.NotificationFragment"
+        android:name="com.social2023Network.presentation.ui.notification.NotificationFragment"
         android:label="NotificationFragment" >
         <action
             android:id="@+id/action_notificationFragment_to_profile_fragment"

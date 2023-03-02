@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/message_fragment"
-        android:name="com.social2023Network.fragments.FragmentMessages"
+        android:name="com.social2023Network.presentation.ui.messages.FragmentMessages"
         android:label="FragmentMessages" />
 </navigation>
