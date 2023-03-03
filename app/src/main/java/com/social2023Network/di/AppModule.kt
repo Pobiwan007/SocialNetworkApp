@@ -1,6 +1,7 @@
 package com.social2023Network.di
 
-import com.social2023Network.data.repository.HomeRepository
+import com.social2023Network.domain.repository.HomeRepository
+import com.social2023Network.domain.usecase.ConverterDataUseCase
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -20,8 +21,12 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideHomeViewModelFactory(repository: HomeRepository): HomeViewModelFactory{
-        return HomeViewModelFactory(repository)
+    fun provideHomeViewModelFactory(repository: HomeRepository, case: ConverterDataUseCase): HomeViewModelFactory{
+        return HomeViewModelFactory(repository, case)
     }
+
+    @Singleton
+    @Provides
+    fun provideConverterUseCase() : ConverterDataUseCase{ return ConverterDataUseCase() }
 
 }

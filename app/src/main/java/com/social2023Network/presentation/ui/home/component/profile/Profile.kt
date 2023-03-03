@@ -1,4 +1,4 @@
-package com.social2023Network.data.remote.profile
+package com.social2023Network.presentation.ui.home.component.profile
 
 data class Profile(
     val id: Int,

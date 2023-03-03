@@ -1,11 +1,10 @@
-package com.social2023Network.data.repository
+package com.social2023Network.domain.repository
 
-import com.social2023Network.data.remote.anime.AnimeResponse
+import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.common.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 class HomeRepository{

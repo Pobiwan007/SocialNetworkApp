@@ -1,4 +1,4 @@
-package com.social2023Network.presentation.ui.home.compose
+package com.social2023Network.presentation.ui.home.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,10 +15,11 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.social2023Network.R
-import com.social2023Network.data.remote.profile.Profile
-import com.social2023Network.data.remote.story.Story
+import com.social2023Network.presentation.ui.home.component.profile.Profile
+import com.social2023Network.domain.model.story.Story
 import com.social2023Network.presentation.ui.home.HomeViewModel
-import com.social2023Network.presentation.ui.home.compose.itemsList.ItemStory
+import com.social2023Network.presentation.ui.home.component.animePage.AnimePage
+import com.social2023Network.presentation.ui.home.component.mainPage.ItemStory
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)

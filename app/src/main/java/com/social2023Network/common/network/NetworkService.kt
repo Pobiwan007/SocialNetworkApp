@@ -1,6 +1,6 @@
 package com.social2023Network.common.network
 
-import com.social2023Network.data.remote.anime.AnimeResponse
+import com.social2023Network.domain.model.anime.AnimeResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

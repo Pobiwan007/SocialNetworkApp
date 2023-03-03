@@ -1,4 +1,4 @@
-package com.social2023Network.data.remote.anime
+package com.social2023Network.domain.model.anime
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
