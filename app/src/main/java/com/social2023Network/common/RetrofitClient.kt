@@ -1,5 +1,6 @@
 package com.social2023Network.common
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.social2023Network.common.network.NetworkService
 import okhttp3.OkHttpClient
@@ -21,6 +22,7 @@ object RetrofitClient {
                     println(resp.peekBody(2048).byteString())
                 }
                 catch (e: Exception) {
+                    Log.e("exeption", e.toString())
                     println("Error parse json from intercept..............")
                 }
             } else

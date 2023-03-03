@@ -1,6 +1,6 @@
 package com.social2023Network.common.network
 
-import com.social2023Network.network.AnimeResponse
+import com.social2023Network.data.remote.anime.AnimeResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -9,6 +9,9 @@ interface NetworkService {
     suspend fun getAnimeWithFilter(
         @Query("filter[text]") filter: String
     ) : AnimeResponse
+
+    @GET("anime")
+    suspend fun getAnime() : AnimeResponse
 
     @GET("anime")
     suspend fun getAnimeWithFilterCategories(

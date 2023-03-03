@@ -5,6 +5,7 @@
     <string name="add_story_title">Add new</string>
     <string name="main_tab">News</string>
     <string name="profile_message">Profile</string>
+    <string name="empty_data_from_network">Empty data</string>
 
 
 </resources>
