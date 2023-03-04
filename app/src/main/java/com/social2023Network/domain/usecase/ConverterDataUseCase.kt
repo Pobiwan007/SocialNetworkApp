@@ -25,9 +25,11 @@ class ConverterDataUseCase {
         val day = dateTime.dayOfMonth
         val month = dateTime.monthValue
         val year = dateTime.year
+        val hour = dateTime.hour
+        val minutes = dateTime.minute
 
         // format the date as "dd-mm-yyyy"
-        val formattedDate = "%02d-%02d-%04d".format(day, month, year)
+        val formattedDate = "%02d-%02d-%04d %02d:%02d".format(day, month, year, hour, minutes)
 
         formattedDate
 

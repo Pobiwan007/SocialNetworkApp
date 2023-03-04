@@ -1,17 +1,23 @@
 package com.social2023Network.presentation.ui.home.component.animePage
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -36,8 +42,10 @@ fun AnimePage(viewModel: HomeViewModel) {
     val textField = remember {
         mutableStateOf("")
     }
+    var isSearchFieldExpanded by remember { mutableStateOf(true) }
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleScope = lifecycleOwner.lifecycleScope
+    val lazyListState = rememberLazyListState()
 
     Box(
         modifier = Modifier
@@ -55,15 +63,24 @@ fun AnimePage(viewModel: HomeViewModel) {
             apiState = animeApiState,
             onSuccessResult = @Composable {
                 Column(modifier = Modifier.fillMaxSize()) {
-
-                    AnimeSearchField(
-                        textField = textField,
-                        onSearch = { viewModel.getDataAnime(filter = textField.value) },
-                        lifecycleScope
-                    )
+                    Box(
+                        modifier = Modifier
+                            .heightIn(max = if (!isSearchFieldExpanded) 120.dp else 0.dp)
+                            .animateContentSize()
+                            .clip(RoundedCornerShape(10.dp))
+                            .padding(top = 10.dp, bottom = 5.dp),
+                    ) {
+                        AnimeSearchField(
+                            textField = textField,
+                            onSearch = { viewModel.getDataAnime(filter = textField.value) },
+                            lifecycleScope,
+                        )
+                    }
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
+                            .clip(RoundedCornerShape(10.dp))
+                        , state = lazyListState
                     ) {
                         items(animeState.data) { card ->
                             AnimePost(card, viewModel)
@@ -73,6 +90,10 @@ fun AnimePage(viewModel: HomeViewModel) {
             },
             onErrorResult = { lifecycleScope.launch { viewModel.getDataAnime() } }
         )
+        LaunchedEffect(lazyListState.isScrollInProgress) {
+            isSearchFieldExpanded = lazyListState.isScrollInProgress
+        }
+
     }
 }
 
@@ -111,7 +132,7 @@ fun AnimeSearchField(
         textStyle = TextStyle(fontSize = 16.sp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(20.dp)
     )
 }

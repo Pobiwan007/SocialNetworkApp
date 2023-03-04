@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,12 +26,6 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         bottomNavigationView.setupWithNavController(navController)
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(coil.base.R.id.title)
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
     }
-
-    override fun onSupportNavigateUp() = navController.navigateUp(appBarConfiguration)
 }
 

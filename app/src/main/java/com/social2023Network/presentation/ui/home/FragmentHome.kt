@@ -1,9 +1,7 @@
 package com.social2023Network.presentation.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,7 +22,7 @@ class FragmentHome : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        viewModel.setContext(requireContext())
         return ComposeView(requireContext()).apply {
             setContent {
                 HomeScreen(
@@ -38,4 +36,5 @@ class FragmentHome : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getDataAnime()
     }
+
 }

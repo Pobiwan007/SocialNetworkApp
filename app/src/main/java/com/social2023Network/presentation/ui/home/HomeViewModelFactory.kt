@@ -9,7 +9,7 @@ import javax.inject.Inject
 class HomeViewModelFactory
         @Inject constructor(
                 private val repository: HomeRepository,
-                private val converterDataUseCase: ConverterDataUseCase
+                private val converterDataUseCase: ConverterDataUseCase,
         ): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return HomeViewModel(repository, converterDataUseCase) as T

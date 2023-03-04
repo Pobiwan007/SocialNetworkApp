@@ -1,15 +1,15 @@
 package com.social2023Network.presentation.ui.home.component
 
 import androidx.compose.animation.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -28,9 +28,11 @@ fun ApiStateView(
     onErrorResult: () -> Unit
 ) = when (apiState) {
     is ApiState.Loading ->
-        Column(modifier = Modifier.fillMaxSize(),
+        Column(
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             AnimatedVisibility(
                 visible = true,
                 enter = fadeIn() + expandIn(expandFrom = Alignment.Center),
@@ -70,7 +72,11 @@ fun ApiStateView(
             ) {
                 Text(
                     text = stringResource(id = R.string.try_again),
-                    style = TextStyle(fontSize = 15.sp, color = green, textAlign = TextAlign.Center),
+                    style = TextStyle(
+                        fontSize = 15.sp,
+                        color = green,
+                        textAlign = TextAlign.Center
+                    ),
                     modifier = Modifier.padding(5.dp),
                 )
             }
@@ -82,6 +88,15 @@ fun ApiStateView(
         onSuccessResult()
     }
     ApiState.Empty -> {
-        Text(text = stringResource(id = R.string.empty_data_from_network))
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(id = R.string.empty_data_from_network),
+                style = TextStyle(fontSize = 25.sp, color = green, textAlign = TextAlign.Center),
+            )
+        }
     }
 }
