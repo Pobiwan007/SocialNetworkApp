@@ -5,6 +5,7 @@ import android.view.*
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.social2023Network.presentation.MainActivity
 import com.social2023Network.presentation.ui.home.component.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,7 +23,6 @@ class FragmentHome : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.setContext(requireContext())
         return ComposeView(requireContext()).apply {
             setContent {
                 HomeScreen(
@@ -34,7 +34,8 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getDataAnime()
+        (requireActivity() as MainActivity).requestLocationPermission(viewModel)
+
     }
 
 }

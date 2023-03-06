@@ -10,7 +10,6 @@ import com.social2023Network.presentation.ui.home.HomeViewModel
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()

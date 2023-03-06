@@ -29,11 +29,19 @@ object RetrofitClient {
                 println(resp)
             resp
         }.build()
-    val retrofitAnime : NetworkService by lazy {
-        Retrofit.Builder()
-            .baseUrl(AllApi.BASE_ANIME)
+    private fun createRetrofit(baseUrl: String): NetworkService {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build().create(NetworkService::class.java)
+    }
+
+    val retrofitWeather: NetworkService by lazy {
+        createRetrofit(AllApi.BASE_WEATHER)
+    }
+
+    val retrofitAnime : NetworkService by lazy {
+        createRetrofit(AllApi.BASE_ANIME)
     }
 }

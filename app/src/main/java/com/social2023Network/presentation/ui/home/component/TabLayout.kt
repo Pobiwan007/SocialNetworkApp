@@ -1,5 +1,6 @@
 package com.social2023Network.presentation.ui.home.component
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,14 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringArrayResource
+import androidx.navigation.findNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.social2023Network.R
-import com.social2023Network.presentation.ui.home.component.profile.Profile
+import com.social2023Network.domain.model.profile.Profile
 import com.social2023Network.domain.model.story.Story
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.animePage.AnimePage

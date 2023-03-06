@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -12,29 +11,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.social2023Network.R
-import com.social2023Network.common.AllApi
 import com.social2023Network.domain.model.anime.AnimeEntity
 import com.social2023Network.presentation.ui.home.HomeViewModel
+import com.social2023Network.presentation.ui.home.component.util.CircleImage
+import com.social2023Network.presentation.ui.home.component.util.PosterImage
+import com.social2023Network.presentation.ui.theme.colorBlue
 import com.social2023Network.presentation.ui.theme.pink
 
 @Composable
 fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
-
-    var result by remember { mutableStateOf("") }
-
-    LaunchedEffect(viewModel) {
-        result = viewModel.onDateReceived(card.attributes?.createdAt.toString())
-    }
 
     Card(
         shape = RoundedCornerShape(15.dp),
@@ -45,15 +40,7 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
     ) {
 
         Column(modifier = Modifier.padding(bottom = 5.dp)) {
-            AsyncImage(
-                model = card.attributes?.coverImage?.original ?: AllApi.DEFAULT_POSTER,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp),
-                contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.anime_placeholder)
-            )
+            PosterImage(url = card.attributes?.coverImage?.original, height = 150.dp)
             Row(
                 modifier = Modifier
                     .padding(5.dp)
@@ -62,15 +49,7 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                AsyncImage(
-                    model = card.attributes?.posterImage?.small,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .padding(start = 1.dp),
-                    contentScale = ContentScale.Crop,
-                )
+                CircleImage(url = card.attributes?.posterImage?.small, 50.dp)
                 Column(
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier.padding(3.dp)
@@ -85,8 +64,13 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
                         maxLines = 1
                     )
                     Text(
-                        text = result,
-                        style = TextStyle(fontSize = 10.sp)
+                        text = "${stringResource(R.string.from)} ${card.attributes?.startDate} ${
+                            stringResource(
+                                R.string.to
+                            )
+                        } ${card.attributes?.endDate}",
+                        style = TextStyle(fontSize = 10.sp),
+                        textDecoration = TextDecoration.Underline
                     )
                 }
 
@@ -109,8 +93,9 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
                 ComposeButton {
                     viewModel.openUrl(card.attributes?.youtubeVideoId!!)
                 }
+                EpisodeCount(count = card.attributes?.episodeCount.toString())
                 Text(
-                    text = card.attributes?.ageRating.toString(),
+                    text = card.attributes?.ageRating ?: "PG-13",
                     fontSize = 14.sp,
                     color = Color.White,
                     modifier = Modifier
@@ -195,4 +180,22 @@ fun ComposeButton(
             }
         },
     )
+}
+
+@Composable
+fun EpisodeCount(count: String) {
+    Box(
+        modifier = Modifier
+            .background(color = colorBlue)
+            .padding(2.dp)
+            .clip(RoundedCornerShape(16.dp)),
+    ) {
+        Text(
+            text = "Episodes: $count",
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+    }
 }

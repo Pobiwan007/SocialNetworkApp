@@ -16,6 +16,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -39,7 +40,7 @@ fun AnimePage(viewModel: HomeViewModel) {
 
     val animeState by viewModel.mutableDataAnime.collectAsState(initial = AnimeResponse())
     val animeApiState by viewModel.apiState.collectAsState()
-    val textField = remember {
+    val textField = rememberSaveable {
         mutableStateOf("")
     }
     var isSearchFieldExpanded by remember { mutableStateOf(true) }
