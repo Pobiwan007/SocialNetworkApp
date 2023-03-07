@@ -1,6 +1,5 @@
 package com.social2023Network.presentation.ui.home.component
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,10 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringArrayResource
-import androidx.navigation.findNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -23,6 +20,7 @@ import com.social2023Network.domain.model.story.Story
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.animePage.AnimePage
 import com.social2023Network.presentation.ui.home.component.mainPage.ItemStory
+import com.social2023Network.presentation.ui.home.component.weatherPage.WeatherPage
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -88,6 +86,7 @@ fun TabLayout(viewModel: HomeViewModel) {
                     0 ->         ItemStory(items = tempList)
                     1 ->         {}
                     2 ->         AnimePage(viewModel)
+                    3 ->         WeatherPage(viewModel = viewModel)
                 }
             }
         }

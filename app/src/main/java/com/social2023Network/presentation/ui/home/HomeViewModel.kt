@@ -40,19 +40,16 @@ constructor(
     val mutableDataWeather = _mutableDataWeather.asStateFlow()
 
     private var _context: MutableLiveData<Context> = MutableLiveData()
-    private val _hasLocationPermission = MutableLiveData<Boolean>()
+    private val _location = MutableLiveData(AllApi.DEFAULT_CITY)
 
 
     init {
         getDataAnime()
     }
 
-    fun getCurrentWeather(latitude: Double?, longitude: Double?) = viewModelScope.launch {
+    fun getCurrentWeather() = viewModelScope.launch {
         _apiStateWeather.value = ApiState.Loading
-        val weatherFlow =
-            if (latitude == null && longitude == null) homeRepository.getCurrentWeather(AllApi.DEFAULT_CITY)
-            else homeRepository.getCurrentWeather("${latitude},${longitude}")
-        weatherFlow
+        homeRepository.getCurrentWeather(_location.value.toString())
             .catch {
                 _apiStateWeather.value = ApiState.Failure(it)
             }
@@ -98,8 +95,8 @@ constructor(
         )
     }
 
-    fun setLocationPermission(isGranted: Boolean) {
-        _hasLocationPermission.value = isGranted
+    fun setLocation(location: String) {
+        _location.value = location
     }
 
 }
