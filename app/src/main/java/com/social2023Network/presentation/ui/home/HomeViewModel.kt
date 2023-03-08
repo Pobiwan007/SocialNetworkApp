@@ -36,8 +36,8 @@ constructor(
         MutableStateFlow(WeatherResponse())
     private var _apiStateWeather: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Empty)
 
-    val apiStateWeather = _apiStateWeather.asStateFlow()
-    val mutableDataWeather = _mutableDataWeather.asStateFlow()
+    val apiStateCurrentWeather = _apiStateWeather.asStateFlow()
+    val mutableDataCurrentWeather = _mutableDataWeather.asStateFlow()
 
     private var _context: MutableLiveData<Context> = MutableLiveData()
     private val _location = MutableLiveData(AllApi.DEFAULT_CITY)
@@ -45,9 +45,10 @@ constructor(
 
     init {
         getDataAnime()
+        getCurrentWeather()
     }
 
-    fun getCurrentWeather() = viewModelScope.launch {
+    private fun getCurrentWeather() = viewModelScope.launch {
         _apiStateWeather.value = ApiState.Loading
         homeRepository.getCurrentWeather(_location.value.toString())
             .catch {
@@ -88,13 +89,21 @@ constructor(
         val builder = CustomTabsIntent.Builder()
             .setShowTitle(true)
 
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(
-            _context.value!!,
-            Uri.parse("https://www.youtube.com/watch?v=$url")
-        )
+        try {
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(
+                _context.value!!,
+                Uri.parse("https://www.youtube.com/watch?v=$url")
+            )
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
     }
 
+    fun setContext(context: Context){
+        _context.value = context
+    }
     fun setLocation(location: String) {
         _location.value = location
     }

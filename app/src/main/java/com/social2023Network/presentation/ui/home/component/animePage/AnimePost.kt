@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,12 +24,10 @@ import com.social2023Network.domain.model.anime.AnimeEntity
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.util.CircleImage
 import com.social2023Network.presentation.ui.home.component.util.PosterImage
-import com.social2023Network.presentation.ui.theme.colorBlue
 import com.social2023Network.presentation.ui.theme.pink
 
 @Composable
 fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
-
     Card(
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
@@ -40,7 +37,13 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
     ) {
 
         Column(modifier = Modifier.padding(bottom = 5.dp)) {
-            PosterImage(url = card.attributes?.coverImage?.original, height = 150.dp)
+            PosterImage(
+                url = card.attributes?.coverImage?.original,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp),
+                null
+            )
             Row(
                 modifier = Modifier
                     .padding(5.dp)
@@ -91,7 +94,7 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 ComposeButton {
-                    viewModel.openUrl(card.attributes?.youtubeVideoId!!)
+                    viewModel.openUrl(card.attributes?.youtubeVideoId ?: "qig4KOK2R2g")
                 }
                 EpisodeCount(count = card.attributes?.episodeCount.toString())
                 Text(
@@ -184,18 +187,15 @@ fun ComposeButton(
 
 @Composable
 fun EpisodeCount(count: String) {
-    Box(
-        modifier = Modifier
-            .background(color = colorBlue)
-            .padding(2.dp)
-            .clip(RoundedCornerShape(16.dp)),
-    ) {
-        Text(
-            text = "Episodes: $count",
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            modifier = Modifier.padding(8.dp)
-        )
-    }
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        elevation = 7.dp,
+        content = {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = "Episodes: $count",
+                fontSize = 16.sp
+            )
+        }
+    )
 }

@@ -1,7 +1,6 @@
 package com.social2023Network.presentation.ui.home.component.mainPage
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -25,20 +24,22 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.social2023Network.R
 import com.social2023Network.domain.model.story.Story
+import com.social2023Network.presentation.ui.home.component.util.Background
 
 @Composable
 fun ItemStory(items: List<Story>) {
-    Row {
-        AddStoryTemplate()
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-        ) {
-            itemsIndexed(
-                items
-            ) { _, item ->
-                CardStory(item = item)
+    Background {
+        Row {
+            AddStoryTemplate()
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                itemsIndexed(
+                    items
+                ) { _, item ->
+                    CardStory(item = item)
+                }
             }
         }
     }

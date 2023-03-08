@@ -29,6 +29,7 @@ class FragmentHome : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.setContext(requireContext())
         return ComposeView(requireContext()).apply {
             setContent {
                 HomeScreen(

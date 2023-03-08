@@ -1,5 +1,6 @@
 package com.social2023Network.domain.usecase
 
+import android.content.Context
 import android.os.Build
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -32,6 +33,10 @@ class ConverterDataUseCase {
         val formattedDate = "%02d-%02d-%04d %02d:%02d".format(day, month, year, hour, minutes)
 
         formattedDate
+
+    }
+
+    fun getPhoto(context: Context){
 
     }
 }

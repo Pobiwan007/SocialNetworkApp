@@ -1,7 +1,6 @@
 package com.social2023Network.presentation.ui.home.component.animePage
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,7 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
@@ -32,7 +30,7 @@ import androidx.lifecycle.lifecycleScope
 import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.ApiStateView
-import com.social2023Network.presentation.ui.theme.colorBlue
+import com.social2023Network.presentation.ui.home.component.util.Background
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,18 +46,7 @@ fun AnimePage(viewModel: HomeViewModel) {
     val lifecycleScope = lifecycleOwner.lifecycleScope
     val lazyListState = rememberLazyListState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.linearGradient(
-                    listOf(
-                        colorBlue,
-                        Color.White
-                    )
-                )
-            )
-    ) {
+    Background {
         ApiStateView(
             apiState = animeApiState,
             onSuccessResult = @Composable {
@@ -79,9 +66,7 @@ fun AnimePage(viewModel: HomeViewModel) {
                     }
                     LazyColumn(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(10.dp))
-                        , state = lazyListState
+                            .clip(RoundedCornerShape(10.dp)), state = lazyListState
                     ) {
                         items(animeState.data) { card ->
                             AnimePost(card, viewModel)
@@ -94,7 +79,6 @@ fun AnimePage(viewModel: HomeViewModel) {
         LaunchedEffect(lazyListState.isScrollInProgress) {
             isSearchFieldExpanded = lazyListState.isScrollInProgress
         }
-
     }
 }
 

@@ -23,7 +23,7 @@ class HomeRepository{
     }
 
     suspend fun getCurrentWeather(location: String): Flow<WeatherResponse> = flowOnIO {
-        RetrofitClient.retrofitWeather.getCurrentWeather(location = location, apiKey = AllApi.API_KEY)
+        RetrofitClient.retrofitWeather.getForecastWeather(location = location, apiKey = AllApi.API_KEY)
     }
     private inline fun <T> flowOnIO(crossinline block: suspend () -> T): Flow<T> =
         flow {

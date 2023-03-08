@@ -19,8 +19,8 @@ interface NetworkService {
         @Query("filter[categories]") category: String
     ) : AnimeResponse
 
-    @GET("current.json")
-    suspend fun getCurrentWeather(
+    @GET("forecast.json")
+    suspend fun getForecastWeather(
         @Query("q") location : String,
         @Query("key") apiKey : String
     ): WeatherResponse

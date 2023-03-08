@@ -86,7 +86,8 @@ fun TabLayout(viewModel: HomeViewModel) {
                     0 ->         ItemStory(items = tempList)
                     1 ->         {}
                     2 ->         AnimePage(viewModel)
-                    3 ->         WeatherPage(viewModel = viewModel)
+                    3 ->         {}
+                    4 ->         WeatherPage(viewModel = viewModel)
                 }
             }
         }
