@@ -2,7 +2,6 @@
 <resources>
     <string-array name="tab_items">
         <item>Main</item>
-        <item>News</item>
         <item>Anime</item>
         <item>Music</item>
         <item>Weather</item>

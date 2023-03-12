@@ -15,11 +15,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.social2023Network.R
-import com.social2023Network.domain.model.profile.Profile
-import com.social2023Network.domain.model.story.Story
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.animePage.AnimePage
-import com.social2023Network.presentation.ui.home.component.mainPage.ItemStory
+import com.social2023Network.presentation.ui.home.component.mainPage.MainPage
 import com.social2023Network.presentation.ui.home.component.weatherPage.WeatherPage
 import kotlinx.coroutines.launch
 
@@ -30,27 +28,6 @@ fun TabLayout(viewModel: HomeViewModel) {
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
     val coroutine = rememberCoroutineScope()
-
-    val tempList = listOf(
-        Story(
-            0,
-            "17.02.2023:9:00",
-            "https://vsegda-pomnim.com/uploads/posts/2022-04/1649130983_5-vsegda-pomnim-com-p-prirodnii-landshaft-foto-6.jpg",
-            profile = Profile(1, "Abdu", "Rakhimov", timeLastOnline = "")
-        ),
-        Story(
-            0,
-            "17.02.2023:9:00",
-            "https://vsegda-pomnim.com/uploads/posts/2022-04/1649130983_5-vsegda-pomnim-com-p-prirodnii-landshaft-foto-6.jpg",
-            profile = Profile(1, "Abdu", "Rakhimov", timeLastOnline = "")
-        ),
-        Story(
-            0,
-            "17.02.2023:9:00",
-            "https://vsegda-pomnim.com/uploads/posts/2022-04/1649130983_5-vsegda-pomnim-com-p-prirodnii-landshaft-foto-6.jpg",
-            profile = Profile(1, "Abdu", "Rakhimov", timeLastOnline = "")
-        ),
-    )
 
     Column(modifier = Modifier.fillMaxWidth()) {
         ScrollableTabRow(
@@ -83,11 +60,10 @@ fun TabLayout(viewModel: HomeViewModel) {
                 .fillMaxSize()
             ){
                 when(pagerState.currentPage) {
-                    0 ->         ItemStory(items = tempList)
-                    1 ->         {}
-                    2 ->         AnimePage(viewModel)
-                    3 ->         {}
-                    4 ->         WeatherPage(viewModel = viewModel)
+                    0 ->         MainPage(viewModel)
+                    1 ->         AnimePage(viewModel)
+                    2 ->         {}
+                    3 ->         WeatherPage(viewModel = viewModel)
                 }
             }
         }

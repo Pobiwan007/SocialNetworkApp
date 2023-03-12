@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "275648445330",
+    "project_id": "socialnetworkapp-379918",
+    "storage_bucket": "socialnetworkapp-379918.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275648445330:android:82e9c4c1afbc35ef439f4b",
+        "android_client_info": {
+          "package_name": "com.social2023Network"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275648445330-hsg7qr8rr09o17fcaetu4qnm4tqrkhmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj4vv6mTUGS6wWjEal5aRYRkqtKLrc6as"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275648445330-hsg7qr8rr09o17fcaetu4qnm4tqrkhmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -42,8 +42,7 @@ fun AnimePage(viewModel: HomeViewModel) {
         mutableStateOf("")
     }
     var isSearchFieldExpanded by remember { mutableStateOf(true) }
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val lifecycleScope = lifecycleOwner.lifecycleScope
+    val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val lazyListState = rememberLazyListState()
 
     Background {
@@ -62,6 +61,9 @@ fun AnimePage(viewModel: HomeViewModel) {
                             textField = textField,
                             onSearch = { viewModel.getDataAnime(filter = textField.value) },
                             lifecycleScope,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 13.dp),
                         )
                     }
                     LazyColumn(
@@ -87,6 +89,7 @@ fun AnimeSearchField(
     textField: MutableState<String>,
     onSearch: suspend () -> Unit,
     lifecycleScope: LifecycleCoroutineScope,
+    modifier: Modifier
 ) {
 
     TextField(
@@ -114,10 +117,8 @@ fun AnimeSearchField(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
+        modifier = modifier,
         textStyle = TextStyle(fontSize = 16.sp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(20.dp)
     )
 }

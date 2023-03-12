@@ -85,7 +85,7 @@ data class Hour (
 
     @SerializedName("time_epoch"     ) var timeEpoch    : Int?       = null,
     @SerializedName("time"           ) var time         : String?    = null,
-    @SerializedName("temp_c"         ) var tempC        : Double?    = null,
+    @SerializedName("temp_c"         ) var tempC        : String?    = null,
     @SerializedName("temp_f"         ) var tempF        : Double?    = null,
     @SerializedName("is_day"         ) var isDay        : String?       = null,
     @SerializedName("condition"      ) var condition    : Condition? = Condition(),
@@ -122,12 +122,12 @@ data class Hour (
 @Parcelize
 data class Day (
 
-    @SerializedName("maxtemp_c"            ) var maxtempC          : Double?    = null,
+    @SerializedName("maxtemp_c"            ) var maxtempC          : String?    = null,
     @SerializedName("maxtemp_f"            ) var maxtempF          : String?       = null,
-    @SerializedName("mintemp_c"            ) var mintempC          : Double?    = null,
+    @SerializedName("mintemp_c"            ) var mintempC          : String?    = null,
     @SerializedName("mintemp_f"            ) var mintempF          : String?       = null,
-    @SerializedName("avgtemp_c"            ) var avgtempC          : Double?    = null,
-    @SerializedName("avgtemp_f"            ) var avgtempF          : Double?    = null,
+    @SerializedName("avgtemp_c"            ) var avgtempC          : String?    = null,
+    @SerializedName("avgtemp_f"            ) var avgtempF          : String?    = null,
     @SerializedName("maxwind_mph"          ) var maxwindMph        : Double?    = null,
     @SerializedName("maxwind_kph"          ) var maxwindKph        : Double?    = null,
     @SerializedName("totalprecip_mm"       ) var totalprecipMm     : Double?    = null,
