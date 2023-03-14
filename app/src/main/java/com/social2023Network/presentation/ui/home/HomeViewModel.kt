@@ -3,6 +3,7 @@ package com.social2023Network.presentation.ui.home
 import android.content.Context
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,10 +14,12 @@ import com.social2023Network.domain.model.profile.Profile
 import com.social2023Network.domain.model.story.Story
 import com.social2023Network.domain.model.weather.WeatherResponse
 import com.social2023Network.domain.repository.HomeRepository
+import com.social2023Network.domain.usecase.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +27,7 @@ class HomeViewModel
 @Inject
 constructor(
     private var homeRepository: HomeRepository,
-    //private val converterDataUseCase: ConverterDataUseCase,
+    private val homeUseCase: HomeUseCase,
 ) : ViewModel() {
 
     private var _apiStateAnime: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Empty)
@@ -103,9 +106,9 @@ constructor(
             }
     }
 
-//    suspend fun onDateReceived(dateStr: String): String = withContext(Dispatchers.IO) {
-//        converterDataUseCase.execute(dateStr)
-//    }
+    suspend fun getColorByRatingName(rating: String): Color = withContext(Dispatchers.Default) {
+        homeUseCase.getColorByRating(rating)
+    }
 
     fun openUrl(url: String) {
         val builder = CustomTabsIntent.Builder()

@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,6 +29,13 @@ import com.social2023Network.presentation.ui.theme.pink
 
 @Composable
 fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
+
+    val colorRating = remember {
+        mutableStateOf(Color.Green)
+    }
+    LaunchedEffect(viewModel){
+        colorRating.value = viewModel.getColorByRatingName(card.attributes?.ageRating.toString())
+    }
     Card(
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
@@ -100,17 +108,11 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
                 Text(
                     text = card.attributes?.ageRating ?: "PG-13",
                     fontSize = 14.sp,
-                    color = Color.White,
+                    color = Color.Black,
                     modifier = Modifier
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .background(
-                            color = when (card.attributes?.ageRating.toString()) {
-                                "G" -> Color.Green
-                                "PG" -> Color.Yellow
-                                "PG-13" -> pink
-                                "R" -> Color.Red
-                                else -> Color.Gray
-                            },
+                            color = colorRating.value,
                             shape = RoundedCornerShape(4.dp)
                         )
                         .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -138,7 +140,7 @@ fun PopularityRank(rank: Int) {
             text = rank.toString(),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
-            color = pink,
+            color = Color.White,
         )
     }
 }
