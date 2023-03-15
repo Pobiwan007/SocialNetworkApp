@@ -13,6 +13,7 @@ import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.domain.model.story.Story
 import com.social2023Network.domain.model.weather.WeatherResponse
 import com.social2023Network.data.repository.HomeRepository
+import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.usecase.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +52,9 @@ constructor(
     init {
         getDataAnime()
         getCurrentWeather()
+        viewModelScope.launch {
+            getPostsFromFirebase("path")
+        }
     }
 
     private fun getCurrentWeather() = viewModelScope.launch {
@@ -104,6 +108,10 @@ constructor(
             e.printStackTrace()
         }
 
+    }
+
+    private suspend fun getPostsFromFirebase(path: String): List<Post> = withContext(Dispatchers.IO){
+        homeRepository.getPostFromFirebase(path)
     }
 
     fun setContext(context: Context){

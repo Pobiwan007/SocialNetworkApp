@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 class HomeUseCase {
 
 
-    suspend fun execute(dateStr: String): String  = withContext(Dispatchers.IO){
+    suspend fun convertDate(dateStr: String): String  = withContext(Dispatchers.IO){
         // create a DateTimeFormatter object to parse the input date string
         //2013-02-20T16:00:23.893Z
         val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

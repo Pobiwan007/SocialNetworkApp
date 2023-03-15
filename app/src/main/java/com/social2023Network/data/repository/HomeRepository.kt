@@ -19,7 +19,7 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class HomeRepository(@Inject private val firebaseDB: FirebaseDB){
+class HomeRepository @Inject constructor(private val firebaseDB: FirebaseDB){
     suspend fun getAnimeData(): Flow<AnimeResponse> = flowOnIO {
         RetrofitClient.retrofitAnime.getAnime()
     }
@@ -40,11 +40,23 @@ class HomeRepository(@Inject private val firebaseDB: FirebaseDB){
             emit(withContext(Dispatchers.IO) { block() })
         }
 
-    suspend fun getDataSnapshotFromFirebase(dataPath: String): DataSnapshot? {
+    suspend fun getPostFromFirebase(dataPath: String): List<Post> {
         return withContext(Dispatchers.IO) {
             val data = firebaseDB.getDatabaseReference(dataPath).get().await()
+
             // Parse the data here and return it as a domain model
-            data
+            val rawList = data.value as? List<Map<*, *>> ?: return@withContext emptyList()
+
+            val resultList = mutableListOf<Post>()
+            for(rawData in rawList){
+                val id = rawData["id"] as? Int ?: continue
+                val time = rawData["time"] as? String ?: continue
+                val desc = rawData["desc"] as? String ?: continue
+                val img = rawData["img"] as? String ?:continue
+
+                resultList.add(Post(id = id, time = time, desc = desc, img = img))
+            }
+            resultList
         }
     }
 
