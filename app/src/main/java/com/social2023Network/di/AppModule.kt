@@ -1,15 +1,13 @@
 package com.social2023Network.di
 
 import android.content.Context
-import androidx.activity.result.ActivityResultRegistry
 import com.social2023Network.domain.repository.HomeRepository
-import com.social2023Network.domain.usecase.ConverterDataUseCase
+import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.BaseApplication
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -27,15 +25,15 @@ class AppModule {
     @Provides
     fun provideHomeViewModelFactory(
         repository: HomeRepository,
-        //case: ConverterDataUseCase,
+        homeUseCase: HomeUseCase,
     ): HomeViewModelFactory {
-        return HomeViewModelFactory(repository)
+        return HomeViewModelFactory(repository, homeUseCase)
     }
 
     @Singleton
     @Provides
-    fun provideConverterUseCase(): ConverterDataUseCase {
-        return ConverterDataUseCase()
+    fun provideConverterUseCase(): HomeUseCase {
+        return HomeUseCase()
     }
 
 

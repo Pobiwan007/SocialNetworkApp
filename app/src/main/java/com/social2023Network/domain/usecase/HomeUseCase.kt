@@ -2,12 +2,14 @@ package com.social2023Network.domain.usecase
 
 import android.content.Context
 import android.os.Build
+import androidx.compose.ui.graphics.Color
+import com.social2023Network.presentation.ui.theme.pink
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class ConverterDataUseCase {
+class HomeUseCase {
 
 
     suspend fun execute(dateStr: String): String  = withContext(Dispatchers.IO){
@@ -36,7 +38,13 @@ class ConverterDataUseCase {
 
     }
 
-    fun getPhoto(context: Context){
-
+    suspend fun getColorByRating(rating: String) : Color = withContext(Dispatchers.Default){
+        when (rating) {
+            "G" -> Color.Green
+            "PG" -> Color.Yellow
+            "PG-13" -> pink
+            "R" -> Color.Red
+            else -> Color.Gray
+        }
     }
 }
