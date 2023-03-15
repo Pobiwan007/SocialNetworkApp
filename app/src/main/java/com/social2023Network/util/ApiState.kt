@@ -1,4 +1,4 @@
-package com.social2023Network.common.network
+package com.social2023Network.util
 
 sealed class ApiState{
     object Loading : ApiState()

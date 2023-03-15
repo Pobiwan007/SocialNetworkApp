@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.social2023Network.R
-import com.social2023Network.common.AllApi
+import com.social2023Network.util.AllApi
 import com.social2023Network.domain.model.weather.Forecastday
 import com.social2023Network.domain.model.weather.Hour
 import com.social2023Network.domain.model.weather.WeatherResponse

@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.social2023Network.R
-import com.social2023Network.common.network.ApiState
+import com.social2023Network.util.ApiState
 import com.social2023Network.presentation.ui.theme.coral
 import com.social2023Network.presentation.ui.theme.green
 

@@ -10,7 +10,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.social2023Network.common.AllApi
+import com.social2023Network.util.AllApi
 
 @Composable
 fun CircleImage(url: String?, dp: Dp) {

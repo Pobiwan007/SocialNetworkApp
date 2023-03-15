@@ -1,8 +1,8 @@
-package com.social2023Network.common
+package com.social2023Network.data.network
 
 import android.util.Log
 import com.google.gson.GsonBuilder
-import com.social2023Network.common.network.NetworkService
+import com.social2023Network.util.AllApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

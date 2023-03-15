@@ -7,13 +7,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.social2023Network.common.AllApi
-import com.social2023Network.common.network.ApiState
+import com.social2023Network.util.AllApi
+import com.social2023Network.util.ApiState
 import com.social2023Network.domain.model.anime.AnimeResponse
-import com.social2023Network.domain.model.profile.Profile
 import com.social2023Network.domain.model.story.Story
 import com.social2023Network.domain.model.weather.WeatherResponse
-import com.social2023Network.domain.repository.HomeRepository
+import com.social2023Network.data.repository.HomeRepository
 import com.social2023Network.domain.usecase.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -47,26 +46,7 @@ constructor(
     private var _context: MutableLiveData<Context> = MutableLiveData()
     private val _location = MutableLiveData(AllApi.DEFAULT_CITY)
 
-    val tempList = listOf(
-        Story(
-            0,
-            "17.02.2023:9:00",
-            "https://vsegda-pomnim.com/uploads/posts/2022-04/1649130983_5-vsegda-pomnim-com-p-prirodnii-landshaft-foto-6.jpg",
-            profile = Profile(1, "Abdu", "Rakhimov", timeLastOnline = "")
-        ),
-        Story(
-            0,
-            "17.02.2023:9:00",
-            "https://vsegda-pomnim.com/uploads/posts/2022-04/1649130983_5-vsegda-pomnim-com-p-prirodnii-landshaft-foto-6.jpg",
-            profile = Profile(1, "Abdu", "Rakhimov", timeLastOnline = "")
-        ),
-        Story(
-            0,
-            "17.02.2023:9:00",
-            "https://vsegda-pomnim.com/uploads/posts/2022-04/1649130983_5-vsegda-pomnim-com-p-prirodnii-landshaft-foto-6.jpg",
-            profile = Profile(1, "Abdu", "Rakhimov", timeLastOnline = "")
-        ),
-    )
+    val tempList = listOf<Story>()
 
     init {
         getDataAnime()

@@ -6,7 +6,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import com.social2023Network.R
-import com.social2023Network.common.AllApi
+import com.social2023Network.util.AllApi
 
 @Composable
 fun PosterImage(url: String?, modifier: Modifier, contentScale : ContentScale?) {

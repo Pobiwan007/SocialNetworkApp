@@ -1,4 +1,4 @@
-package com.social2023Network.common.network
+package com.social2023Network.data.network
 
 import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.domain.model.weather.WeatherResponse

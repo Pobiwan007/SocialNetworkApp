@@ -1,7 +1,8 @@
 package com.social2023Network.di
 
 import android.content.Context
-import com.social2023Network.domain.repository.HomeRepository
+import com.social2023Network.data.firebase.FirebaseDB
+import com.social2023Network.data.repository.HomeRepository
 import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.BaseApplication
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
@@ -17,15 +18,15 @@ import javax.inject.Singleton
 class AppModule {
     @Singleton
     @Provides
-    fun provideHomeRepository(): HomeRepository {
-        return HomeRepository()
+    fun provideHomeRepository(firebaseDB: FirebaseDB): HomeRepository {
+        return HomeRepository(firebaseDB)
     }
 
     @Singleton
     @Provides
     fun provideHomeViewModelFactory(
         repository: HomeRepository,
-        homeUseCase: HomeUseCase,
+        homeUseCase: HomeUseCase
     ): HomeViewModelFactory {
         return HomeViewModelFactory(repository, homeUseCase)
     }
@@ -45,6 +46,12 @@ class AppModule {
     @Singleton
     fun provideApplicationContext(baseApplication: BaseApplication): Context {
         return baseApplication
+    }
+
+    @Singleton
+    @Provides
+    fun provideFireBaseDB(): FirebaseDB{
+        return FirebaseDB.getInstance()
     }
 
 }

@@ -7,12 +7,11 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.social2023Network.common.AllApi
+import com.social2023Network.util.AllApi
 import com.social2023Network.presentation.ui.home.component.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
