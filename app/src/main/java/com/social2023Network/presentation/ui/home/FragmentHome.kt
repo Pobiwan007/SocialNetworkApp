@@ -7,6 +7,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -67,3 +68,26 @@ class FragmentHome : Fragment() {
     }
 
 }
+
+//interface HomeFragmentContract {
+//    interface View {
+//        fun showLocationPermissionDialog()
+//        fun requestLocationPermission()
+//        fun setScreenContent(content: @Composable () -> Unit)
+//    }
+//
+//    interface Presenter {
+//        fun onViewCreated()
+//        fun onLocationPermissionResult(granted: Boolean)
+//        fun onLocationReceived(location: String)
+//        fun onError(error: Throwable)
+//    }
+//
+//    interface Interactor {
+//        fun getCurrentLocation(): String
+//    }
+//
+//    interface Router {
+//        fun navigateToDetailScreen()
+//    }
+//}

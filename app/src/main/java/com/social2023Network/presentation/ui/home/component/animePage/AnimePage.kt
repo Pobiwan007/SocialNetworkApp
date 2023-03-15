@@ -45,7 +45,6 @@ fun AnimePage(viewModel: HomeViewModel) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val lazyListState = rememberLazyListState()
 
-    Background {
         ApiStateView(
             apiState = animeApiState,
             onSuccessResult = @Composable {
@@ -81,7 +80,7 @@ fun AnimePage(viewModel: HomeViewModel) {
         LaunchedEffect(lazyListState.isScrollInProgress) {
             isSearchFieldExpanded = lazyListState.isScrollInProgress
         }
-    }
+
 }
 
 @Composable

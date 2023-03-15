@@ -24,7 +24,6 @@ fun MainPage(viewModel: HomeViewModel) {
     }
     val showBottomSheet = remember { mutableStateOf(false) }
 
-    Background {
         Column() {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -47,5 +46,5 @@ fun MainPage(viewModel: HomeViewModel) {
                 MyBottomSheet(onDismiss = { showBottomSheet.value = false })
             }
         }
-    }
+
 }
