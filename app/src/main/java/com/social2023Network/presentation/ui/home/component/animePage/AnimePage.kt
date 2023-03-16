@@ -30,7 +30,6 @@ import androidx.lifecycle.lifecycleScope
 import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.ApiStateView
-import com.social2023Network.presentation.ui.home.component.util.Background
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,7 +44,7 @@ fun AnimePage(viewModel: HomeViewModel) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val lazyListState = rememberLazyListState()
 
-        ApiStateView(
+    ApiStateView(
             apiState = animeApiState,
             onSuccessResult = @Composable {
                 Column(modifier = Modifier.fillMaxSize()) {

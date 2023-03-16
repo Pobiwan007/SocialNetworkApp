@@ -23,8 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.social2023Network.R
 import com.social2023Network.domain.model.anime.AnimeEntity
 import com.social2023Network.presentation.ui.home.HomeViewModel
-import com.social2023Network.presentation.ui.home.component.util.CircleImage
-import com.social2023Network.presentation.ui.home.component.util.PosterImage
+import com.social2023Network.presentation.ui.home.component.util.*
 import com.social2023Network.presentation.ui.theme.pink
 
 @Composable
@@ -65,35 +64,15 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier.padding(3.dp)
                 ) {
-                    Text(
-                        text = card.attributes?.canonicalTitle.toString(),
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily.Serif,
-                            textAlign = TextAlign.End
-                        ),
-                        maxLines = 1
-                    )
-                    Text(
+                    TextTitle(card.attributes?.canonicalTitle.toString())
+                    TextCursor(
                         text = "${stringResource(R.string.from)} ${card.attributes?.startDate} ${
-                            stringResource(
-                                R.string.to
-                            )
-                        } ${card.attributes?.endDate}",
-                        style = TextStyle(fontSize = 10.sp),
-                        textDecoration = TextDecoration.Underline
+                            stringResource(R.string.to)} ${card.attributes?.endDate}",
                     )
                 }
 
             }
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                text = card.attributes?.synopsis.toString(),
-                style = MaterialTheme.typography.body1,
-                maxLines = 3
-            )
+            TextDesc(text = card.attributes?.synopsis.toString())
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier

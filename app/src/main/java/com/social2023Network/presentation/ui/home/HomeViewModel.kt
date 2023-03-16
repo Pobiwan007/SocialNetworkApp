@@ -7,14 +7,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.social2023Network.util.AllApi
-import com.social2023Network.util.ApiState
+import com.social2023Network.data.repository.HomeRepository
 import com.social2023Network.domain.model.anime.AnimeResponse
+import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.model.story.Story
 import com.social2023Network.domain.model.weather.WeatherResponse
-import com.social2023Network.data.repository.HomeRepository
-import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.usecase.HomeUseCase
+import com.social2023Network.util.AllApi
+import com.social2023Network.util.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -47,14 +47,16 @@ constructor(
     private var _context: MutableLiveData<Context> = MutableLiveData()
     private val _location = MutableLiveData(AllApi.DEFAULT_CITY)
 
-    val tempList = listOf<Story>()
+    private var _postsMutableData : MutableStateFlow<List<Post>> = MutableStateFlow(listOf())
+    val posts = _postsMutableData.asStateFlow()
+
+    private var _storiesMutableData : MutableStateFlow<List<Story>> = MutableStateFlow(listOf())
+    val stories = _storiesMutableData.asStateFlow()
 
     init {
         getDataAnime()
         getCurrentWeather()
-        viewModelScope.launch {
-            getPostsFromFirebase("path")
-        }
+        getPostListFromFirebase("path")
     }
 
     private fun getCurrentWeather() = viewModelScope.launch {
@@ -110,10 +112,6 @@ constructor(
 
     }
 
-    private suspend fun getPostsFromFirebase(path: String): List<Post> = withContext(Dispatchers.IO){
-        homeRepository.getPostFromFirebase(path)
-    }
-
     fun setContext(context: Context){
         _context.value = context
     }
@@ -121,4 +119,7 @@ constructor(
         _location.value = location
     }
 
+    private fun getPostListFromFirebase(path: String) = viewModelScope.launch {
+        _postsMutableData.value = homeRepository.getPostFromFirebase(path)
+    }
 }

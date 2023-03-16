@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MyBottomSheet(onDismiss: () -> Unit) {
+fun MyBottomSheet(onDismiss: () -> Unit, onPublish: () -> Unit) {
     val bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     val scope = rememberCoroutineScope()
     val insets = LocalConfiguration.current
@@ -70,7 +70,7 @@ fun MyBottomSheet(onDismiss: () -> Unit) {
                     onButtonClicked = {
                         scope.launch {
                             bottomSheetState.expand()
-                            onDismiss()
+                            onPublish()
                         }
                     },
                     textOnButton = stringResource(id = R.string.submit),

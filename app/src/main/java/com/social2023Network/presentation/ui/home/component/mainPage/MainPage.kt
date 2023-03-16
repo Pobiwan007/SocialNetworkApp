@@ -1,9 +1,10 @@
 package com.social2023Network.presentation.ui.home.component.mainPage
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import com.social2023Network.R
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.animePage.AnimeSearchField
-import com.social2023Network.presentation.ui.home.component.util.Background
 import com.social2023Network.presentation.ui.home.component.util.ImageResource
 
 @Composable
@@ -23,28 +23,42 @@ fun MainPage(viewModel: HomeViewModel) {
         mutableStateOf("")
     }
     val showBottomSheet = remember { mutableStateOf(false) }
+    val stories by viewModel.stories.collectAsState()
+    val lazyListState = rememberLazyListState()
+    val posts by viewModel.posts.collectAsState()
 
-        Column() {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                AnimeSearchField(
-                    textField = textField,
-                    onSearch = {},
-                    lifecycleScope = lifecycleScope,
-                    modifier = Modifier
-                        .fillMaxWidth(.85f)
-                        .padding(10.dp),
-                )
-                ImageResource(id = R.drawable.baseline_playlist_add_24, size = 70.dp, onImageClicked = {showBottomSheet.value = true})
+    Column {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AnimeSearchField(
+                textField = textField,
+                onSearch = {},
+                lifecycleScope = lifecycleScope,
+                modifier = Modifier
+                    .fillMaxWidth(.85f)
+                    .padding(10.dp),
+            )
+            ImageResource(
+                id = R.drawable.baseline_playlist_add_24,
+                size = 70.dp,
+                onImageClicked = { showBottomSheet.value = true })
 
-            }
-            ItemStory(items = viewModel.tempList)
-            if (showBottomSheet.value) {
-                MyBottomSheet(onDismiss = { showBottomSheet.value = false })
+        }
+        ItemStory(items = stories)
+        if (showBottomSheet.value) {
+            MyBottomSheet(
+                onDismiss = { showBottomSheet.value = false },
+                onPublish = { showBottomSheet.value = false }
+            )
+        }
+        LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
+            items(posts) {
+                Posts(post = it)
             }
         }
+    }
 
 }

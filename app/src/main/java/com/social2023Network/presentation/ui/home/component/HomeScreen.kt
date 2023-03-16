@@ -33,7 +33,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
 
     Background {
         Column {
-            TabRow(items = itemsTab, pagerState, onTabSelected = {
+            TabLayout(items = itemsTab, pagerState, onTabSelected = {
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(it)
                 }
@@ -47,7 +47,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         0 -> MainPage(viewModel)
                         1 -> AnimePage(viewModel)
                         2 -> {}
-                        3 -> WeatherPage(viewModel = viewModel)
+                        3 -> WeatherPage(viewModel)
                     }
                 }
             }
@@ -58,7 +58,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TabRow(items: Array<String>, pagerState: PagerState, onTabSelected: (Int) -> Unit) {
+fun TabLayout(items: Array<String>, pagerState: PagerState, onTabSelected: (Int) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
