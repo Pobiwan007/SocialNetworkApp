@@ -1,54 +1,76 @@
 package com.social2023Network.presentation.ui.home.component.mainPage
 
+import android.net.Uri
+import android.os.Build
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.social2023Network.R
-import com.social2023Network.presentation.ui.theme.colorRed
-import com.social2023Network.presentation.ui.theme.coral
-import com.social2023Network.presentation.ui.theme.green
+import com.social2023Network.domain.model.post.Post
+import com.social2023Network.presentation.ui.home.HomeViewModel
+import com.social2023Network.presentation.ui.home.component.util.ImageResource
+import com.social2023Network.presentation.ui.theme.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, DelicateCoroutinesApi::class)
 @Composable
-fun MyBottomSheet(onDismiss: () -> Unit, onPublish: () -> Unit) {
+fun MyBottomSheet(
+    onDismiss: () -> Unit,
+    onPublish: suspend (post: Post) -> Unit,
+    viewModel: HomeViewModel
+) {
     val bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     val scope = rememberCoroutineScope()
     val insets = LocalConfiguration.current
+    val dismissState = remember {
+        mutableStateOf(false)
+    }
+    val collapsedValue = if (bottomSheetState.isCollapsed) 0f else 0.4f
+    val expandedValue = if (bottomSheetState.isCollapsed) 0.4f else 0f
 
     val animateHeight = animateFloatAsState(
-        if (bottomSheetState.isCollapsed) 0f else 0.3f,
-        tween(durationMillis = 300, easing = FastOutSlowInEasing),
+        if (!dismissState.value) collapsedValue else expandedValue,
+        tween(durationMillis = 700, easing = FastOutSlowInEasing)
     )
-    val textField = rememberSaveable {
-        mutableStateOf("")
+    val titleTextField = remember { mutableStateOf("") }
+    val descTextField = remember { mutableStateOf("") }
+    val listURI = remember {
+        mutableStateListOf<Uri?>()
     }
     val state = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState)
+
     BottomSheetScaffold(
         scaffoldState = state,
         modifier = Modifier
             .padding(10.dp)
-            .alpha(.5f)
             .height((animateHeight.value * insets.screenHeightDp).dp)
             .fillMaxWidth()
             .shadow(1.dp, RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
@@ -59,7 +81,8 @@ fun MyBottomSheet(onDismiss: () -> Unit, onPublish: () -> Unit) {
                 ButtonPost(
                     onButtonClicked = {
                         scope.launch {
-                            bottomSheetState.expand()
+                            dismissState.value = true
+                            delay(700)
                             onDismiss()
                         }
                     },
@@ -69,8 +92,20 @@ fun MyBottomSheet(onDismiss: () -> Unit, onPublish: () -> Unit) {
                 ButtonPost(
                     onButtonClicked = {
                         scope.launch {
-                            bottomSheetState.expand()
-                            onPublish()
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                val currentPost = Post(
+                                    "1",
+                                    LocalDateTime.now().toString(),
+                                    descTextField.value,
+                                    listURI.toList() as List<String>,
+                                    titleTextField.value
+                                )
+                                if (currentPost.validateData()) {
+                                    dismissState.value = true
+                                    delay(700)
+                                    onPublish(currentPost)
+                                }
+                            }
                         }
                     },
                     textOnButton = stringResource(id = R.string.submit),
@@ -82,13 +117,53 @@ fun MyBottomSheet(onDismiss: () -> Unit, onPublish: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(colorBlue)
                     .padding(4.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    NewsPostTextField(
+                        textField = titleTextField,
+                        onValueChange = { titleTextField.value = it },
+                        textTitle = stringResource(id = R.string.title_news_post),
+                        modifier = Modifier
+                            .fillMaxWidth(0.6f)
+                            .padding(5.dp)
+                    )
+                    ImageResource(id = R.drawable.baseline_image_24, size = 50.dp) {
+                        viewModel.permissionsManager.selectImage {
+                            GlobalScope.launch {
+                                listURI.add((it))
+                            }
+                        }
+                    }
+                    ImageResource(id = R.drawable.baseline_library_music_24, size = 50.dp) {
+
+                    }
+                }
+                if (listURI.isNotEmpty())
+                    ShowImagesListUri(
+                        listURI = listURI, modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.3f)
+                    )
+
                 NewsPostTextField(
-                    textField = textField,
-                    onValueChange = { textField.value = it })
+                    textField = descTextField,
+                    onValueChange = { descTextField.value = it },
+                    textTitle = stringResource(id = R.string.desc_news_post),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .background(pink)
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                )
             }
+
         }
     )
 
@@ -98,20 +173,23 @@ fun MyBottomSheet(onDismiss: () -> Unit, onPublish: () -> Unit) {
 fun NewsPostTextField(
     textField: MutableState<String>,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textTitle: String? = "",
 ) {
     TextField(
         value = textField.value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier,
         label = {
             Text(
-                text = stringResource(id = R.string.label_news_post),
+                text = textTitle!!,
                 style = TextStyle(color = Color.White)
             )
         },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
         textStyle = MaterialTheme.typography.body1,
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.Transparent,
@@ -122,6 +200,7 @@ fun NewsPostTextField(
         ),
     )
 }
+
 
 @Composable
 fun ButtonPost(
@@ -157,4 +236,36 @@ fun ButtonPost(
             )
         }
     )
+}
+
+@Composable
+fun ShowImagesListUri(listURI: SnapshotStateList<Uri?>, modifier: Modifier) {
+    LazyRow(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        for (item in listURI) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(10.dp))
+                        .padding(6.dp), contentAlignment = Alignment.Center
+                ) {
+                    AsyncImage(
+                        model = item,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.4f),
+                        contentScale = ContentScale.Crop
+                    )
+                    ImageResource(id = R.drawable.baseline_close_24, size = 50.dp) {
+                        listURI.removeAt(item.toString().indexOf(item.toString()))
+                    }
+                }
+            }
+        }
+    }
 }

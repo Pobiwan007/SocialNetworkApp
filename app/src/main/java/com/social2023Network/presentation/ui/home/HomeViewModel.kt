@@ -2,18 +2,19 @@ package com.social2023Network.presentation.ui.home
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.social2023Network.data.permissions.PermissionsManager
 import com.social2023Network.data.repository.HomeRepository
 import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.model.story.Story
 import com.social2023Network.domain.model.weather.WeatherResponse
 import com.social2023Network.domain.usecase.HomeUseCase
-import com.social2023Network.util.AllApi
 import com.social2023Network.util.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +37,7 @@ constructor(
 
     val apiState = _apiStateAnime.asStateFlow()
     val mutableDataAnime = _mutableDataAnime.asStateFlow()
+    lateinit var permissionsManager : PermissionsManager
 
     private var _mutableDataWeather: MutableStateFlow<WeatherResponse> =
         MutableStateFlow(WeatherResponse())
@@ -45,7 +47,7 @@ constructor(
     val mutableDataCurrentWeather = _mutableDataWeather.asStateFlow()
 
     private var _context: MutableLiveData<Context> = MutableLiveData()
-    private val _location = MutableLiveData(AllApi.DEFAULT_CITY)
+    private val _location = MutableLiveData<String>()
 
     private var _postsMutableData : MutableStateFlow<List<Post>> = MutableStateFlow(listOf())
     val posts = _postsMutableData.asStateFlow()
@@ -55,8 +57,7 @@ constructor(
 
     init {
         getDataAnime()
-        getCurrentWeather()
-        getPostListFromFirebase("path")
+        getPostListFromFirebase()
     }
 
     private fun getCurrentWeather() = viewModelScope.launch {
@@ -96,10 +97,10 @@ constructor(
         homeUseCase.getColorByRating(rating)
     }
 
+
     fun openUrl(url: String) {
         val builder = CustomTabsIntent.Builder()
             .setShowTitle(true)
-
         try {
             val customTabsIntent = builder.build()
             customTabsIntent.launchUrl(
@@ -117,9 +118,25 @@ constructor(
     }
     fun setLocation(location: String) {
         _location.value = location
+        getCurrentWeather()
     }
 
-    private fun getPostListFromFirebase(path: String) = viewModelScope.launch {
-        _postsMutableData.value = homeRepository.getPostFromFirebase(path)
+    private fun getPostListFromFirebase() = viewModelScope.launch {
+        homeRepository.getPosts().collect{
+            when{
+                it.isSuccess -> {
+                    _postsMutableData.value = it.getOrThrow()
+                }
+                it.isFailure -> {
+                    Log.e("POSTS:ViewModel", "FAIL")
+                }
+            }
+        }
+    }
+
+    suspend fun createNewPostInFirebase(post: Post){
+        viewModelScope.launch {
+             homeRepository.createPost(post, _context.value!!).toString()
+        }
     }
 }

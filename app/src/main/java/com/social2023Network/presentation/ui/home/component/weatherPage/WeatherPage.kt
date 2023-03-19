@@ -98,7 +98,7 @@ fun CardCurrentWeather(weatherApiData: WeatherResponse) {
             ) {
                 WeatherParameters(
                     iconId = R.drawable.baseline_location_on_24,
-                    text = weatherApiData.location?.region.toString(),
+                    text = weatherApiData.location?.name.toString(),
                     fontSize = 25.sp
                 )
                 Text(
@@ -186,7 +186,8 @@ fun WeatherParameters(iconId: Int, text: String, fontSize: TextUnit? = 16.sp) {
                 fontWeight = FontWeight(1),
                 color = colorBlue
             ),
-            modifier = Modifier.padding(start = 10.dp)
+            modifier = Modifier.padding(start = 10.dp),
+            maxLines = 1
         )
     }
 }

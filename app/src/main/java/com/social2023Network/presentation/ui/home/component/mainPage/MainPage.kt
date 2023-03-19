@@ -51,7 +51,11 @@ fun MainPage(viewModel: HomeViewModel) {
         if (showBottomSheet.value) {
             MyBottomSheet(
                 onDismiss = { showBottomSheet.value = false },
-                onPublish = { showBottomSheet.value = false }
+                onPublish =  {
+                    showBottomSheet.value = false
+                    viewModel.createNewPostInFirebase(it)
+                },
+                viewModel
             )
         }
         LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {

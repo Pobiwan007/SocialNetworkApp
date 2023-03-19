@@ -1,25 +1,35 @@
 package com.social2023Network.data.repository
 
+import android.content.Context
+import android.net.Uri
+import androidx.core.net.toUri
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.ValueEventListener
-import com.social2023Network.data.firebase.FirebaseDB
+import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.util.AllApi
 import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.data.network.RetrofitClient
+import com.social2023Network.domain.RealtimeDatabaseRepository
 import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.model.weather.WeatherResponse
+import com.social2023Network.domain.usecase.HomeUseCase
+import com.social2023Network.presentation.ui.util.DialogManager
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
-class HomeRepository @Inject constructor(private val firebaseDB: FirebaseDB){
+class HomeRepository @Inject constructor(
+        private val firebaseManager: FirebaseManager,
+        private val homeUseCase: HomeUseCase,
+        private val dialogManager: DialogManager
+    ) : RealtimeDatabaseRepository{
     suspend fun getAnimeData(): Flow<AnimeResponse> = flowOnIO {
         RetrofitClient.retrofitAnime.getAnime()
     }
@@ -40,56 +50,58 @@ class HomeRepository @Inject constructor(private val firebaseDB: FirebaseDB){
             emit(withContext(Dispatchers.IO) { block() })
         }
 
-    suspend fun getPostFromFirebase(dataPath: String): List<Post> {
-        return withContext(Dispatchers.IO) {
-            val data = firebaseDB.getDatabaseReference(dataPath).get().await()
 
-            // Parse the data here and return it as a domain model
-            val rawList = data.value as? List<Map<*, *>> ?: return@withContext emptyList()
+    override suspend fun getPosts() = callbackFlow<Result<List<Post>>> {
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    val items = snapshot.children.map {
+                        it.getValue(Post::class.java)
+                    }
+                    this@callbackFlow.trySendBlocking(Result.success(items.filterNotNull()))
+                } catch (e: DatabaseException){
+                    e.printStackTrace()
+                }
 
-            val resultList = mutableListOf<Post>()
-            for(rawData in rawList){
-                val id = rawData["id"] as? Int ?: continue
-                val time = rawData["time"] as? String ?: continue
-                val desc = rawData["desc"] as? String ?: continue
-                val img = rawData["img"] as? String ?:continue
-
-                resultList.add(Post(id = id, time = time, desc = desc, img = img))
             }
-            resultList
+
+            override fun onCancelled(error: DatabaseError) {
+                this@callbackFlow.trySendBlocking(Result.failure(error.toException()))
+            }
+        }
+        firebaseManager.getDatabaseReference(path = "posts")
+            .addValueEventListener(postListener)
+
+        awaitClose {
+            firebaseManager.getDatabaseReference("posts")
+                .removeEventListener(postListener)
         }
     }
 
-    suspend fun setNewPostToFirebase(post: Post) {
-        return suspendCancellableCoroutine { continuation ->
-            val dataReference = firebaseDB.getDatabaseReference("path")
-            val dataListener = object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    // This is called when the data is successfully written to Firebase
-                    continuation.resume(Unit)
-                }
+    override suspend fun createPost(post: Post, context: Context) {
+        try {
+            val postId = firebaseManager.getDatabaseReference("posts").push().key ?: throw Exception("Failed to get new post ID")
+            post.id = postId
 
-                override fun onCancelled(error: DatabaseError) {
-                    // This is called if there is an error writing the data to Firebase
-                    continuation.resumeWithException(error.toException())
+            // Convert Uri list to String list
+            val imagePaths = post.images?.map { uri ->
+                val fileExt = homeUseCase.convertUriToFileExtension(uri.toUri(), context)
+                val file = File(uri.toUri().path!!)
+                val storageRef = firebaseManager.getStorageReference("posts").child("${System.currentTimeMillis()}.$fileExt")
+                val uploadTask = storageRef.putFile(Uri.fromFile(file))
+                uploadTask.addOnProgressListener { taskSnapshot ->
+                    dialogManager.uploadFilesWithProgressDialog(context, taskSnapshot)
                 }
+                // Await for the upload to finish and return the image path
+                uploadTask.await()
+                storageRef.path
             }
+            post.images = imagePaths
 
-            // Set the new data to Firebase
-            dataReference.setValue(post)
-                .addOnSuccessListener { _ ->
-                    // Listen for changes to the data to know when it's successfully written
-                    dataReference.addValueEventListener(dataListener)
-                }
-                .addOnFailureListener { e ->
-                    // If there is an error setting the data, call resumeWithException to return the error
-                    continuation.resumeWithException(e)
-                }
-
-            // If the coroutine is cancelled, remove the listener to avoid memory leaks
-            continuation.invokeOnCancellation {
-                dataReference.removeEventListener(dataListener)
-            }
+            firebaseManager.getDatabaseReference("posts").child(postId).setValue(post).await()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
     }
 }

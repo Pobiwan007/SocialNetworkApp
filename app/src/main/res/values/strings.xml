@@ -11,8 +11,9 @@
     <string name="from">"from "</string>
     <string name="no_info">-</string>
     <string name="cancel">Cancel</string>
-    <string name="label_news_post">New post</string>
+    <string name="title_news_post">Title the new post</string>
     <string name="submit">"Publish "</string>
+    <string name="desc_news_post">Description</string>
 
 
 </resources>

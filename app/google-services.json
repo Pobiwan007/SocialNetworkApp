@@ -2,6 +2,7 @@
   "project_info": {
     "project_number": "275648445330",
     "project_id": "socialnetworkapp-379918",
+    "firebase_url": "https://socialnetworkapp-379918-default-rtdb.asia-southeast1.firebasedatabase.app",
     "storage_bucket": "socialnetworkapp-379918.appspot.com"
   },
   "client": [

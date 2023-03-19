@@ -1,11 +1,12 @@
 package com.social2023Network.di
 
 import android.content.Context
-import com.social2023Network.data.firebase.FirebaseDB
+import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.data.repository.HomeRepository
 import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.BaseApplication
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
+import com.social2023Network.presentation.ui.util.DialogManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,11 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-    @Singleton
-    @Provides
-    fun provideHomeRepository(firebaseDB: FirebaseDB): HomeRepository {
-        return HomeRepository(firebaseDB)
-    }
+
 
     @Singleton
     @Provides
@@ -50,8 +47,23 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideFireBaseDB(): FirebaseDB{
-        return FirebaseDB.getInstance()
+    fun provideFireBaseDB(): FirebaseManager {
+        return FirebaseManager.getInstance()
     }
 
+    @Singleton
+    @Provides
+    fun provideDialogManager() : DialogManager{
+        return DialogManager()
+    }
+
+    @Singleton
+    @Provides
+    fun provideHomeRepository(
+        firebaseManager: FirebaseManager,
+        homeUseCase: HomeUseCase,
+        dialogManager: DialogManager
+    ): HomeRepository {
+        return HomeRepository(firebaseManager, homeUseCase, dialogManager)
+    }
 }
