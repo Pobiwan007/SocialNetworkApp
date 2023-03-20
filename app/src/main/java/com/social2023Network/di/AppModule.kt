@@ -5,11 +5,13 @@ import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.data.repository.HomeRepository
 import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.BaseApplication
+import com.social2023Network.presentation.ui.home.FragmentHome
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
 import com.social2023Network.presentation.ui.util.DialogManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -39,11 +41,6 @@ class AppModule {
     @Provides
     fun provideBaseApplication() = BaseApplication()
 
-    @Provides
-    @Singleton
-    fun provideApplicationContext(baseApplication: BaseApplication): Context {
-        return baseApplication
-    }
 
     @Singleton
     @Provides
@@ -62,8 +59,9 @@ class AppModule {
     fun provideHomeRepository(
         firebaseManager: FirebaseManager,
         homeUseCase: HomeUseCase,
-        dialogManager: DialogManager
     ): HomeRepository {
-        return HomeRepository(firebaseManager, homeUseCase, dialogManager)
+        return HomeRepository(firebaseManager, homeUseCase)
     }
+
+
 }

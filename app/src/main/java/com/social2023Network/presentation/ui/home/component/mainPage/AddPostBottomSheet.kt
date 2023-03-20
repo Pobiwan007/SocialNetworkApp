@@ -44,7 +44,7 @@ import java.time.LocalDateTime
 @Composable
 fun MyBottomSheet(
     onDismiss: () -> Unit,
-    onPublish: suspend (post: Post) -> Unit,
+    onPublish: suspend (post: Post, listUri: SnapshotStateList<Uri?>) -> Unit,
     viewModel: HomeViewModel
 ) {
     val bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
@@ -95,15 +95,14 @@ fun MyBottomSheet(
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 val currentPost = Post(
                                     "1",
-                                    LocalDateTime.now().toString(),
-                                    descTextField.value,
-                                    listURI.toList() as List<String>,
-                                    titleTextField.value
+                                    time = LocalDateTime.now().toString(),
+                                    desc = descTextField.value,
+                                    title = titleTextField.value
                                 )
                                 if (currentPost.validateData()) {
                                     dismissState.value = true
                                     delay(700)
-                                    onPublish(currentPost)
+                                    onPublish(currentPost, listURI)
                                 }
                             }
                         }

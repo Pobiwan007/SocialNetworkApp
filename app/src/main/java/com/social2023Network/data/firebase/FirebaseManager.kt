@@ -21,7 +21,7 @@ class FirebaseManager private constructor() {
     }
 
     private val database: DatabaseReference by lazy {
-        FirebaseDatabase.getInstance().getReference("path")
+        FirebaseDatabase.getInstance().reference
     }
 
     fun getDatabaseReference(path: String): DatabaseReference {

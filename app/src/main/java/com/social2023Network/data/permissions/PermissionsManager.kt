@@ -13,11 +13,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.social2023Network.presentation.ui.util.DialogManager
-import javax.inject.Inject
 
 class PermissionsManager(
-    private val fragment: Fragment,
-    private val dialogManager: DialogManager
+    val fragment: Fragment,
+    val dialogManager: DialogManager
     ) {
     private var _location : Location ?= null
 
@@ -107,5 +106,6 @@ class PermissionsManager(
 
     companion object{
         private const val REQUEST_PERMISSION_CODE = 100
+
     }
 }

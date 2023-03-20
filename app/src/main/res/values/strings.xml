@@ -14,6 +14,7 @@
     <string name="title_news_post">Title the new post</string>
     <string name="submit">"Publish "</string>
     <string name="desc_news_post">Description</string>
+    <string name="title_activity">MainActivity</string>
 
 
 </resources>

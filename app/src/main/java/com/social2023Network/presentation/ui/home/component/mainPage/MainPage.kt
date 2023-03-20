@@ -51,9 +51,9 @@ fun MainPage(viewModel: HomeViewModel) {
         if (showBottomSheet.value) {
             MyBottomSheet(
                 onDismiss = { showBottomSheet.value = false },
-                onPublish =  {
+                onPublish =  {post, listUri ->
                     showBottomSheet.value = false
-                    viewModel.createNewPostInFirebase(it)
+                    viewModel.createNewPostInFirebase(post, listUri)
                 },
                 viewModel
             )

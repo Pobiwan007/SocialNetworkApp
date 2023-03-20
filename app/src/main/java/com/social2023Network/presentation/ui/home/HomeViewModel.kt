@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -134,9 +135,15 @@ constructor(
         }
     }
 
-    suspend fun createNewPostInFirebase(post: Post){
+    suspend fun createNewPostInFirebase(post: Post, listUri: SnapshotStateList<Uri?>){
         viewModelScope.launch {
-             homeRepository.createPost(post, _context.value!!).toString()
+             homeRepository.createPost(post, _context.value!!, listUri, callProgressAlertDialog = {
+                 permissionsManager.dialogManager.uploadFilesWithProgressDialog(
+                     it,
+                     permissionsManager.fragment.viewLifecycleOwner,
+                     _context.value!!
+                 )
+             })
         }
     }
 }
