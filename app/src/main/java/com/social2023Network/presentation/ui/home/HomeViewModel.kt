@@ -138,9 +138,8 @@ constructor(
     suspend fun createNewPostInFirebase(post: Post, listUri: SnapshotStateList<Uri?>){
         viewModelScope.launch {
              homeRepository.createPost(post, _context.value!!, listUri, callProgressAlertDialog = {
-                 permissionsManager.dialogManager.uploadFilesWithProgressDialog(
+                 permissionsManager.dialogManager.showProgressDialog(
                      it,
-                     permissionsManager.fragment.viewLifecycleOwner,
                      _context.value!!
                  )
              })

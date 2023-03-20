@@ -84,13 +84,14 @@ class HomeRepository @Inject constructor(
         post: Post,
         context: Context,
         listUri: SnapshotStateList<Uri?>,
-        callProgressAlertDialog: (taskSnapshot: UploadTask.TaskSnapshot) -> Unit
+        callProgressAlertDialog: (listUploadTask: MutableList<UploadTask>) -> Unit
     ) {
         try {
             val postId = firebaseManager.getDatabaseReference("posts").push().key
                 ?: throw Exception("Failed to get new post ID")
             post.id = postId
 
+            val listUploadTask = mutableListOf<UploadTask>()
             // Convert Uri list to String list
             if (listUri.isNotEmpty()) {
                 val imagePaths = listUri.map { uri ->
@@ -98,13 +99,12 @@ class HomeRepository @Inject constructor(
                     val storageRef = firebaseManager.getStorageReference("posts")
                         .child("${System.currentTimeMillis()}.$fileExt")
                     val uploadTask = storageRef.putFile(uri)
-                    uploadTask.addOnProgressListener { taskSnapshot ->
-                        callProgressAlertDialog(taskSnapshot)
-                    }
+                    listUploadTask.add(uploadTask)
                     // Await for the upload to finish and return the image path
                     uploadTask.await()
                     storageRef.path
                 }
+                callProgressAlertDialog(listUploadTask)
                 post.images = imagePaths
 
             }

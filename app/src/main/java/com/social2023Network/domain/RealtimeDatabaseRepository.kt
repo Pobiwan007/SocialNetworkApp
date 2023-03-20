@@ -13,6 +13,6 @@ interface RealtimeDatabaseRepository {
         post: Post,
         context: Context,
         listUri: SnapshotStateList<Uri?>,
-        callProgressAlertDialog: (taskSnapshot: UploadTask.TaskSnapshot) -> Unit
+        callProgressAlertDialog: (listUploadTask: MutableList<UploadTask>) -> Unit
     )
 }
