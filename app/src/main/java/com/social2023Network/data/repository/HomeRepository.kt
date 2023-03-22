@@ -5,9 +5,7 @@ import android.net.Uri
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.UploadTask
 import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.util.AllApi
 import com.social2023Network.domain.model.anime.AnimeResponse
@@ -16,17 +14,18 @@ import com.social2023Network.domain.RealtimeDatabaseRepository
 import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.model.weather.WeatherResponse
 import com.social2023Network.domain.usecase.HomeUseCase
-import kotlinx.coroutines.Dispatchers
+import com.social2023Network.presentation.ui.util.DialogManager
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(
     private val firebaseManager: FirebaseManager,
     private val homeUseCase: HomeUseCase,
+    private val dialogManager: DialogManager
 ) : RealtimeDatabaseRepository {
     suspend fun getAnimeData(): Flow<AnimeResponse> = flowOnIO {
         RetrofitClient.retrofitAnime.getAnime()
@@ -56,15 +55,10 @@ class HomeRepository @Inject constructor(
     override suspend fun getPosts() = callbackFlow<Result<List<Post>>> {
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                try {
-                    val items = snapshot.children.map {
-                        it.getValue(Post::class.java)
-                    }
-                    this@callbackFlow.trySendBlocking(Result.success(items.filterNotNull()))
-                } catch (e: DatabaseException) {
-                    e.printStackTrace()
+                val items = snapshot.children.map {
+                    it.getValue(Post::class.java)
                 }
-
+                this@callbackFlow.trySendBlocking(Result.success(items.filterNotNull()))
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -84,28 +78,25 @@ class HomeRepository @Inject constructor(
         post: Post,
         context: Context,
         listUri: SnapshotStateList<Uri?>,
-        callProgressAlertDialog: (listUploadTask: MutableList<UploadTask>) -> Unit
     ) {
         try {
             val postId = firebaseManager.getDatabaseReference("posts").push().key
                 ?: throw Exception("Failed to get new post ID")
             post.id = postId
+            val storageRef = firebaseManager.getStorageReference("posts")
 
-            val listUploadTask = mutableListOf<UploadTask>()
             // Convert Uri list to String list
             if (listUri.isNotEmpty()) {
                 val imagePaths = listUri.map { uri ->
                     val fileExt = homeUseCase.convertUriToFileExtension(uri!!, context)
-                    val storageRef = firebaseManager.getStorageReference("posts")
-                        .child("${System.currentTimeMillis()}.$fileExt")
-                    val uploadTask = storageRef.putFile(uri)
-                    listUploadTask.add(uploadTask)
+                    val fileName = "${System.currentTimeMillis()}.$fileExt"
+                    val uploadTask = storageRef.child(fileName).putFile(uri)
+                    dialogManager.showProgressDialog(uploadTask, context)
                     // Await for the upload to finish and return the image path
                     uploadTask.await()
-                    storageRef.path
+                    fileName
                 }
-                callProgressAlertDialog(listUploadTask)
-                post.images = imagePaths
+                post.images = imagePaths as MutableList<String>
 
             }
             firebaseManager.getDatabaseReference("posts").child(postId).setValue(post).await()
@@ -113,5 +104,18 @@ class HomeRepository @Inject constructor(
             e.printStackTrace()
         }
 
+    }
+
+    suspend fun getImageUrlByFileName(fileName: String): String{
+        var urlFile = ""
+        firebaseManager.getStorageReference("posts").child(fileName).downloadUrl
+            .addOnSuccessListener {
+                urlFile = it.toString()
+            }
+            .addOnFailureListener {
+                urlFile = AllApi.DEFAULT_POSTER
+            }
+            .await()
+        return urlFile
     }
 }

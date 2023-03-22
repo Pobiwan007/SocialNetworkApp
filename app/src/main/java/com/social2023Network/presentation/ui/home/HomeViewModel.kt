@@ -74,6 +74,7 @@ constructor(
             }
     }
 
+
     fun getDataAnime(filter: String? = null, category: String? = null) = viewModelScope.launch {
         _apiStateAnime.value = ApiState.Loading
 
@@ -137,12 +138,12 @@ constructor(
 
     suspend fun createNewPostInFirebase(post: Post, listUri: SnapshotStateList<Uri?>){
         viewModelScope.launch {
-             homeRepository.createPost(post, _context.value!!, listUri, callProgressAlertDialog = {
-                 permissionsManager.dialogManager.showProgressDialog(
-                     it,
-                     _context.value!!
-                 )
-             })
+             homeRepository.createPost(post, _context.value!!, listUri)
         }
     }
+
+    suspend fun getUrlImageByFileName(fileName: String): String = withContext(Dispatchers.IO) {
+        homeRepository.getImageUrlByFileName(fileName)
+    }
+
 }

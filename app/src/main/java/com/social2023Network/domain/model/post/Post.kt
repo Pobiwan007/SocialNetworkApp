@@ -9,7 +9,7 @@ data class Post(
     var id: String? = null,
     val time: String? = null,
     val desc: String? = null,
-    var images: List<String>? = null,
+    var images: MutableList<String>? = null,
     val title: String? = null,
     val author: String? = null
 ) : Parcelable {

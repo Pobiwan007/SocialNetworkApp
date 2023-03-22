@@ -3,6 +3,8 @@ package com.social2023Network.presentation.ui.util
 import android.R
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.provider.Settings
 import android.widget.ProgressBar
@@ -26,45 +28,50 @@ class DialogManager{
         builder.show()
     }
 
-    fun showProgressDialog(uploadTasks: List<UploadTask>, context: Context): AlertDialog {
+    fun showProgressDialog(taskSnapshot: UploadTask, context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Uploading...")
         builder.setCancelable(false)
 
         val progressBar = ProgressBar(context, null, R.attr.progressBarStyleHorizontal)
-        progressBar.max = 100
+        progressBar.progressTintList = ColorStateList.valueOf(Color.BLUE)
+        progressBar.progressBackgroundTintList = ColorStateList.valueOf(Color.GRAY)
 
         builder.setView(progressBar)
 
         val dialog = builder.create()
-        dialog.show()
+        var bytesUploaded = 0L
+        var totalBytes = 0L
 
-        var totalBytesUploaded = 0L
-        var totalBytesToUpload = 0L
+        taskSnapshot.addOnProgressListener {
+            bytesUploaded = it.bytesTransferred
+            totalBytes = it.totalByteCount
 
-        uploadTasks.forEach { task ->
-            totalBytesToUpload += task.snapshot.totalByteCount
-            task.addOnProgressListener { taskSnapshot ->
-                totalBytesUploaded += (taskSnapshot.bytesTransferred - taskSnapshot.bytesTransferred)
-                val progress = (100.0 * totalBytesUploaded / totalBytesToUpload).toInt()
-                progressBar.progress = progress
+            // Calculate the progress percentage
+            val progress = (100 * bytesUploaded / totalBytes).toInt()
+
+            // Update the progress dialog with the progress value
+
+            // Update the progress dialog with the progress value
+            progressBar.progress = progress
+        }
+        taskSnapshot.addOnCompleteListener{
+            if (!it.isSuccessful) {
+                dialog.dismiss()
+                Toast.makeText(context, "Upload failed!", Toast.LENGTH_SHORT).show()
+                return@addOnCompleteListener
             }
 
-            task.addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    dialog.dismiss()
-                    Toast.makeText(context, "Upload failed!", Toast.LENGTH_SHORT).show()
-                    return@addOnCompleteListener
-                }
-
-                if (totalBytesUploaded >= totalBytesToUpload) {
-                    dialog.dismiss()
-                    Toast.makeText(context, "Upload successful!", Toast.LENGTH_SHORT).show()
-                }
+            if (bytesUploaded >= totalBytes) {
+                dialog.dismiss()
+                Toast.makeText(context, "Upload successful!", Toast.LENGTH_SHORT).show()
             }
         }
+        progressBar.max = 100
 
-        return dialog
+        dialog.show()
+
+
     }
 
 

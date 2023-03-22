@@ -59,8 +59,9 @@ class AppModule {
     fun provideHomeRepository(
         firebaseManager: FirebaseManager,
         homeUseCase: HomeUseCase,
+        dialogManager: DialogManager
     ): HomeRepository {
-        return HomeRepository(firebaseManager, homeUseCase)
+        return HomeRepository(firebaseManager, homeUseCase, dialogManager)
     }
 
 

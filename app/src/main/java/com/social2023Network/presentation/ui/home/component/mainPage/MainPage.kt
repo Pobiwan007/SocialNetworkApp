@@ -60,7 +60,7 @@ fun MainPage(viewModel: HomeViewModel) {
         }
         LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
             items(posts) {
-                Posts(post = it)
+                Posts(post = it, viewModel)
             }
         }
     }
