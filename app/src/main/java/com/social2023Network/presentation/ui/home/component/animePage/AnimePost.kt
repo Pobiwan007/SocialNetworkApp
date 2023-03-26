@@ -5,26 +5,27 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.social2023Network.R
 import com.social2023Network.domain.model.anime.AnimeEntity
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.util.*
-import com.social2023Network.presentation.ui.theme.pink
+import com.social2023Network.util.AllApi
 
 @Composable
 fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
@@ -51,27 +52,12 @@ fun AnimePost(card: AnimeEntity, viewModel: HomeViewModel) {
                     .height(150.dp),
                 null
             )
-            Row(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth()
-                    .height(60.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                CircleImage(url = card.attributes?.posterImage?.small, 50.dp)
-                Column(
-                    horizontalAlignment = Alignment.End,
-                    modifier = Modifier.padding(3.dp)
-                ) {
-                    TextTitle(card.attributes?.canonicalTitle.toString())
-                    TextCursor(
-                        text = "${stringResource(R.string.from)} ${card.attributes?.startDate} ${
-                            stringResource(R.string.to)} ${card.attributes?.endDate}",
-                    )
-                }
-
-            }
+            PostItemRow(
+                urlImage = card.attributes?.posterImage?.small ?: AllApi.DEFAULT_POSTER,
+                textTitle = card.attributes?.canonicalTitle.toString(),
+                textDate = "${stringResource(R.string.from)} ${card.attributes?.startDate} ${
+                    stringResource(R.string.to)} ${card.attributes?.endDate}"
+            )
             TextDesc(text = card.attributes?.synopsis.toString())
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -179,4 +165,32 @@ fun EpisodeCount(count: String) {
             )
         }
     )
+}
+
+@Composable
+fun PostItemRow(
+    urlImage: String?,
+    textTitle: String,
+    textDate: String
+){
+    Row(
+        modifier = Modifier
+            .padding(5.dp)
+            .fillMaxWidth()
+            .height(60.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CircleImage(url = urlImage, 50.dp)
+        Column(
+            horizontalAlignment = Alignment.End,
+            modifier = Modifier.padding(3.dp)
+        ) {
+            TextTitle(textTitle)
+            TextCursor(
+                text = textDate,
+            )
+        }
+
+    }
 }

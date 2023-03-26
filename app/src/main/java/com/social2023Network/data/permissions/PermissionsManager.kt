@@ -16,7 +16,7 @@ import com.social2023Network.presentation.ui.util.DialogManager
 
 class PermissionsManager(
     val fragment: Fragment,
-    val dialogManager: DialogManager
+    private val dialogManager: DialogManager
     ) {
     private var _location : Location ?= null
 

@@ -55,6 +55,8 @@ constructor(
 
     private var _storiesMutableData : MutableStateFlow<List<Story>> = MutableStateFlow(listOf())
     val stories = _storiesMutableData.asStateFlow()
+    private var _mutableMapUrlImages: MutableStateFlow<MutableMap<String, String>> = MutableStateFlow(mutableMapOf())
+    val imagesUrlMap = _mutableMapUrlImages.asStateFlow()
 
     init {
         getDataAnime()
@@ -97,6 +99,10 @@ constructor(
 
     suspend fun getColorByRatingName(rating: String): Color = withContext(Dispatchers.Default) {
         homeUseCase.getColorByRating(rating)
+    }
+
+    suspend fun convertDateTime(dateTime: String): String = withContext(Dispatchers.Default){
+        homeUseCase.convertDate(dateTime)
     }
 
 
@@ -143,7 +149,12 @@ constructor(
     }
 
     suspend fun getUrlImageByFileName(fileName: String): String = withContext(Dispatchers.IO) {
-        homeRepository.getImageUrlByFileName(fileName)
+        val url = homeRepository.getImageUrlByFileName(fileName)
+        if(!_mutableMapUrlImages.value.containsValue(fileName) && url.isNotEmpty()){
+            _mutableMapUrlImages.value[fileName] = url
+        }
+        url
     }
+
 
 }

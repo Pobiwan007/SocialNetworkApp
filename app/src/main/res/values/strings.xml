@@ -15,6 +15,8 @@
     <string name="submit">"Publish "</string>
     <string name="desc_news_post">Description</string>
     <string name="title_activity">MainActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

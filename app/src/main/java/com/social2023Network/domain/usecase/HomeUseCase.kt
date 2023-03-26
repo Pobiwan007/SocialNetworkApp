@@ -17,7 +17,7 @@ class HomeUseCase {
         // create a DateTimeFormatter object to parse the input date string
         //2013-02-20T16:00:23.893Z
         val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS") //2023-03-22T21:02:18.041
         } else {
             TODO("VERSION.SDK_INT < O")
         }

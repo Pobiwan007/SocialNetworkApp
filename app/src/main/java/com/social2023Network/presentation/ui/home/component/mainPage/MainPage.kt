@@ -27,6 +27,7 @@ fun MainPage(viewModel: HomeViewModel) {
     val lazyListState = rememberLazyListState()
     val posts by viewModel.posts.collectAsState()
 
+
     Column {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
