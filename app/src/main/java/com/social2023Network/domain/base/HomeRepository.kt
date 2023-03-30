@@ -6,7 +6,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.social2023Network.domain.model.post.Post
 import kotlinx.coroutines.flow.Flow
 
-interface RealtimeDatabaseRepository {
+interface HomeRepository {
     suspend fun getPosts() : Flow<Result<List<Post>>>
     suspend fun createPost(
         post: Post,

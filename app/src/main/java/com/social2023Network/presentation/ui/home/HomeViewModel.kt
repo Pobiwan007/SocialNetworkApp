@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.social2023Network.data.permissions.PermissionsManager
-import com.social2023Network.data.repository.HomeRepository
+import com.social2023Network.data.repository.HomeRepositoryImpl
 import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.model.story.Story
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class HomeViewModel
 @Inject
 constructor(
-    private var homeRepository: HomeRepository,
+    private var homeRepository: HomeRepositoryImpl,
     private val homeUseCase: HomeUseCase,
 ) : ViewModel() {
 

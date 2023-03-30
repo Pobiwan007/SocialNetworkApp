@@ -1,17 +1,15 @@
 package com.social2023Network.di
 
-import android.content.Context
 import com.social2023Network.data.firebase.FirebaseManager
-import com.social2023Network.data.repository.HomeRepository
+import com.social2023Network.data.repository.FirebaseAuthRepositoryImpl
+import com.social2023Network.data.repository.HomeRepositoryImpl
 import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.BaseApplication
-import com.social2023Network.presentation.ui.home.FragmentHome
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
 import com.social2023Network.presentation.ui.util.DialogManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -24,7 +22,7 @@ class AppModule {
     @Singleton
     @Provides
     fun provideHomeViewModelFactory(
-        repository: HomeRepository,
+        repository: HomeRepositoryImpl,
         homeUseCase: HomeUseCase
     ): HomeViewModelFactory {
         return HomeViewModelFactory(repository, homeUseCase)
@@ -56,13 +54,20 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideHomeRepository(
+    fun provideHomeRepositoryImpl(
         firebaseManager: FirebaseManager,
         homeUseCase: HomeUseCase,
         dialogManager: DialogManager
-    ): HomeRepository {
-        return HomeRepository(firebaseManager, homeUseCase, dialogManager)
+    ): HomeRepositoryImpl {
+        return HomeRepositoryImpl(firebaseManager, homeUseCase, dialogManager)
     }
 
+    @Singleton
+    @Provides
+    fun provideFirebaseAuthRepositoryImpl(
+        firebaseManager: FirebaseManager
+    ): FirebaseAuthRepositoryImpl{
+        return FirebaseAuthRepositoryImpl(firebaseManager)
+    }
 
 }

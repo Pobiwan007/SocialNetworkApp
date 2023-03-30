@@ -10,7 +10,7 @@ import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.util.AllApi
 import com.social2023Network.domain.model.anime.AnimeResponse
 import com.social2023Network.data.network.RetrofitClient
-import com.social2023Network.domain.base.RealtimeDatabaseRepository
+import com.social2023Network.domain.base.HomeRepository
 import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.model.weather.WeatherResponse
 import com.social2023Network.domain.usecase.HomeUseCase
@@ -22,11 +22,11 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class HomeRepository @Inject constructor(
+class HomeRepositoryImpl @Inject constructor(
     private val firebaseManager: FirebaseManager,
     private val homeUseCase: HomeUseCase,
     private val dialogManager: DialogManager
-) : RealtimeDatabaseRepository {
+) : HomeRepository {
     suspend fun getAnimeData(): Flow<AnimeResponse> = flowOnIO {
         RetrofitClient.retrofitAnime.getAnime()
     }
