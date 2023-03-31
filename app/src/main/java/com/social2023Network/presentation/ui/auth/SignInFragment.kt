@@ -6,17 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.social2023Network.presentation.ui.home.component.util.Background
 import com.social2023Network.presentation.ui.util.component.PhoneNumberField
+import javax.inject.Inject
 
 class SignInFragment: Fragment() {
+
+    @Inject
+    lateinit var authViewModelFactory: AuthViewModelFactory
+    private val viewModel by viewModels<AuthViewModel> { authViewModelFactory }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,7 +35,6 @@ class SignInFragment: Fragment() {
                             .fillMaxWidth()
                             .height(70.dp)) {
                             PhoneNumberField(
-                                textField = remember { mutableStateOf("") },
                                 label = "Phone number",
                                 onCountryCodeDetected = { countryCode ->
                                     // TODO: Handle the country code detection here.

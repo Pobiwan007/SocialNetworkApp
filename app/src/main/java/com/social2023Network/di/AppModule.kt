@@ -5,6 +5,7 @@ import com.social2023Network.data.repository.FirebaseAuthRepositoryImpl
 import com.social2023Network.data.repository.HomeRepositoryImpl
 import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.BaseApplication
+import com.social2023Network.presentation.ui.auth.AuthViewModelFactory
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
 import com.social2023Network.presentation.ui.util.DialogManager
 import dagger.Module
@@ -26,6 +27,14 @@ class AppModule {
         homeUseCase: HomeUseCase
     ): HomeViewModelFactory {
         return HomeViewModelFactory(repository, homeUseCase)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthViewModelFactory(
+        firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl
+    ): AuthViewModelFactory{
+        return AuthViewModelFactory(firebaseAuthRepositoryImpl)
     }
 
     @Singleton

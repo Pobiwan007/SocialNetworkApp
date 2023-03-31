@@ -51,8 +51,6 @@ class DialogManager{
             val progress = (100 * bytesUploaded / totalBytes).toInt()
 
             // Update the progress dialog with the progress value
-
-            // Update the progress dialog with the progress value
             progressBar.progress = progress
         }
         taskSnapshot.addOnCompleteListener{
@@ -68,10 +66,7 @@ class DialogManager{
             }
         }
         progressBar.max = 100
-
         dialog.show()
-
-
     }
 
 

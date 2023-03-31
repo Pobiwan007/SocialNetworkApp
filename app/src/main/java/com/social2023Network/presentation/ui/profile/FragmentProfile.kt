@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.social2023Network.sreens.ProfileScreen
 
 class FragmentProfile : Fragment() {
     override fun onCreateView(

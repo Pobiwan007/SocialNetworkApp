@@ -1,4 +1,4 @@
-package com.social2023Network.sreens
+package com.social2023Network.presentation.ui.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
