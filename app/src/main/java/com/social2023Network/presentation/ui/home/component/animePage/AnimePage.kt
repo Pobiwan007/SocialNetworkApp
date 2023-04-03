@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AnimePage(viewModel: HomeViewModel) {
 
-    val animeState by viewModel.mutableDataAnime.collectAsState(initial = AnimeResponse())
+    val animeResponseData by viewModel.mutableDataAnime.collectAsState(initial = AnimeResponse())
     val animeApiState by viewModel.apiState.collectAsState()
     val textField = rememberSaveable {
         mutableStateOf("")
@@ -52,7 +52,7 @@ fun AnimePage(viewModel: HomeViewModel) {
                             .clip(RoundedCornerShape(10.dp))
                             .padding(top = 10.dp, bottom = 5.dp),
                     ) {
-                        AnimeSearchField(
+                        SearchField(
                             textField = textField,
                             onSearch = { viewModel.getDataAnime(filter = textField.value) },
                             lifecycleScope,
@@ -65,7 +65,7 @@ fun AnimePage(viewModel: HomeViewModel) {
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp)), state = lazyListState
                     ) {
-                        items(animeState.data) { card ->
+                        items(animeResponseData.data) { card ->
                             AnimePost(card, viewModel)
                         }
                     }
@@ -80,7 +80,7 @@ fun AnimePage(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun AnimeSearchField(
+fun SearchField(
     textField: MutableState<String>,
     onSearch: suspend () -> Unit,
     lifecycleScope: LifecycleCoroutineScope,

@@ -44,4 +44,8 @@ object RetrofitClient {
     val retrofitAnime : NetworkService by lazy {
         createRetrofit(AllApi.BASE_ANIME)
     }
+
+    val retrofitCountries: NetworkService by lazy {
+        createRetrofit(AllApi.BASE_COUNTRIES)
+    }
 }

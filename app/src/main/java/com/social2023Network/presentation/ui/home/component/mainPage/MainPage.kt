@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.social2023Network.R
 import com.social2023Network.presentation.ui.home.HomeViewModel
-import com.social2023Network.presentation.ui.home.component.animePage.AnimeSearchField
+import com.social2023Network.presentation.ui.home.component.animePage.SearchField
 import com.social2023Network.presentation.ui.home.component.util.ImageResource
 
 @Composable
@@ -34,7 +34,7 @@ fun MainPage(viewModel: HomeViewModel) {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AnimeSearchField(
+            SearchField(
                 textField = textField,
                 onSearch = {},
                 lifecycleScope = lifecycleScope,

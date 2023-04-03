@@ -1,6 +1,7 @@
 package com.social2023Network.data.network
 
 import com.social2023Network.domain.model.anime.AnimeResponse
+import com.social2023Network.domain.model.countries.CountriesResponse
 import com.social2023Network.domain.model.weather.WeatherResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -25,4 +26,7 @@ interface NetworkService {
         @Query("key") apiKey : String
 
     ): WeatherResponse
+
+    @GET("all")
+    suspend fun getAllCountries(): CountriesResponse
 }

@@ -15,7 +15,7 @@ import com.social2023Network.domain.model.post.Post
 import com.social2023Network.domain.model.weather.WeatherResponse
 import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.ui.util.DialogManager
-import kotlinx.coroutines.*
+import com.social2023Network.util.CoroutineProvider
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.*
@@ -26,7 +26,7 @@ class HomeRepositoryImpl @Inject constructor(
     private val firebaseManager: FirebaseManager,
     private val homeUseCase: HomeUseCase,
     private val dialogManager: DialogManager
-) : HomeRepository {
+) : HomeRepository, CoroutineProvider {
     suspend fun getAnimeData(): Flow<AnimeResponse> = flowOnIO {
         RetrofitClient.retrofitAnime.getAnime()
     }
@@ -45,11 +45,6 @@ class HomeRepositoryImpl @Inject constructor(
             apiKey = AllApi.API_KEY
         )
     }
-
-    private inline fun <T> flowOnIO(crossinline block: suspend () -> T): Flow<T> =
-        flow {
-            emit(withContext(Dispatchers.IO) { block() })
-        }
 
 
     override suspend fun getPosts() = callbackFlow<Result<List<Post>>> {

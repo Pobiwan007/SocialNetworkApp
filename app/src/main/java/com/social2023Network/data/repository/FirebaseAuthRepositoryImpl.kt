@@ -2,15 +2,19 @@ package com.social2023Network.data.repository
 
 import com.google.firebase.auth.PhoneAuthProvider
 import com.social2023Network.data.firebase.FirebaseManager
+import com.social2023Network.data.network.RetrofitClient
 import com.social2023Network.domain.base.FirebaseAuthRepository
+import com.social2023Network.domain.model.countries.CountriesResponse
+import com.social2023Network.util.CoroutineProvider
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val firebaseManager: FirebaseManager
-    ): FirebaseAuthRepository {
+    ): FirebaseAuthRepository, CoroutineProvider {
 
     override suspend fun loginWithPhoneNumber(
         phoneNumber: String?,
@@ -38,5 +42,9 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             callback?.onLoginFailure(e)
         }
+    }
+
+    suspend fun getCountries(): Flow<CountriesResponse> = flowOnIO {
+        RetrofitClient.retrofitCountries.getAllCountries()
     }
 }

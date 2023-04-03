@@ -22,23 +22,6 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideHomeViewModelFactory(
-        repository: HomeRepositoryImpl,
-        homeUseCase: HomeUseCase
-    ): HomeViewModelFactory {
-        return HomeViewModelFactory(repository, homeUseCase)
-    }
-
-    @Singleton
-    @Provides
-    fun provideAuthViewModelFactory(
-        firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl
-    ): AuthViewModelFactory{
-        return AuthViewModelFactory(firebaseAuthRepositoryImpl)
-    }
-
-    @Singleton
-    @Provides
     fun provideConverterUseCase(): HomeUseCase {
         return HomeUseCase()
     }
@@ -79,4 +62,21 @@ class AppModule {
         return FirebaseAuthRepositoryImpl(firebaseManager)
     }
 
+
+    @Singleton
+    @Provides
+    fun provideHomeViewModelFactory(
+        repository: HomeRepositoryImpl,
+        homeUseCase: HomeUseCase
+    ): HomeViewModelFactory {
+        return HomeViewModelFactory(repository, homeUseCase)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthViewModelFactory(
+        firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl
+    ): AuthViewModelFactory{
+        return AuthViewModelFactory(firebaseAuthRepositoryImpl)
+    }
 }
