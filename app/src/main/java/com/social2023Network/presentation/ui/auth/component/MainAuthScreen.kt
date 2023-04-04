@@ -16,26 +16,24 @@ import com.social2023Network.presentation.ui.util.component.PhoneNumberField
 @Composable
 fun MainAuthScreen(authViewModel: AuthViewModel) {
     val apiResponseState = authViewModel.countryResponseApiState.collectAsState()
-    val apiResponseData = authViewModel.countryResponseData.collectAsState(initial = CountriesResponse())
 
     Background {
         ApiStateView(
             apiState = apiResponseState.value,
-            onSuccessResult = { AuthScreen(apiResponseData.value) },
+            onSuccessResult = { AuthScreen() },
             onErrorResult = {}
         )
     }
 }
 
 @Composable
-fun AuthScreen(countriesResponse: CountriesResponse) {
+fun AuthScreen() {
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
         Card(modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)) {
             PhoneNumberField(
                 label = "Phone number",
-                countries = countriesResponse
             )
         }
     }

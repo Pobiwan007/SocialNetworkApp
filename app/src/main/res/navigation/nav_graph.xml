@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/signFlowFragment"
-        android:name="com.social2023Network.presentation.ui.auth.SignInFragment"
+        android:name="com.social2023Network.presentation.ui.auth.AuthFragment"
         android:label="flow_fragment_sign"
         tools:layout="@layout/fragment_sign_flow" />
 </navigation>

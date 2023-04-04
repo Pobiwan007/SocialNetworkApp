@@ -6,22 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.social2023Network.presentation.ui.auth.component.MainAuthScreen
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+@AndroidEntryPoint
+class AuthFragment: Fragment() {
 
-class SignInFragment: Fragment() {
-
-    lateinit var viewModel: AuthViewModel
     @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory
+    private val viewModel by viewModels<AuthViewModel> { authViewModelFactory }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this, authViewModelFactory)[AuthViewModel::class.java]
-
         return ComposeView(requireContext()).apply {
             setContent {
                 MainAuthScreen(authViewModel = viewModel)

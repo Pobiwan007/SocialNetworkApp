@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.social2023Network.presentation.ui.auth.SignInFragment"
+        android:name="com.social2023Network.presentation.ui.auth.AuthFragment"
         android:label="fragment_sign_in">
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"

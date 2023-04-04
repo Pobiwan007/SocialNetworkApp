@@ -10,6 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import retrofit2.await
+import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
@@ -44,7 +46,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         }
     }
 
-    suspend fun getCountries(): Flow<CountriesResponse> = flowOnIO {
-        RetrofitClient.retrofitCountries.getAllCountries()
+    suspend fun getCountries(): Flow<List<CountriesResponse>> = flowOnIO {
+        RetrofitClient.retrofitCountries.getAllCountries().await()
     }
 }

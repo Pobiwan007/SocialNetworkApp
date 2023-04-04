@@ -3,6 +3,7 @@ package com.social2023Network.di
 import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.data.repository.FirebaseAuthRepositoryImpl
 import com.social2023Network.data.repository.HomeRepositoryImpl
+import com.social2023Network.domain.usecase.AuthUseCase
 import com.social2023Network.domain.usecase.HomeUseCase
 import com.social2023Network.presentation.BaseApplication
 import com.social2023Network.presentation.ui.auth.AuthViewModelFactory
@@ -76,7 +77,9 @@ class AppModule {
     @Provides
     fun provideAuthViewModelFactory(
         firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl
-    ): AuthViewModelFactory{
-        return AuthViewModelFactory(firebaseAuthRepositoryImpl)
-    }
+    ): AuthViewModelFactory = AuthViewModelFactory(firebaseAuthRepositoryImpl)
+
+    @Singleton
+    @Provides
+    fun provideAuthUseCase(): AuthUseCase = AuthUseCase()
 }
