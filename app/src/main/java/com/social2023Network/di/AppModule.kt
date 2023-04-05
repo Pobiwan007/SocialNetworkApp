@@ -76,8 +76,9 @@ class AppModule {
     @Singleton
     @Provides
     fun provideAuthViewModelFactory(
-        firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl
-    ): AuthViewModelFactory = AuthViewModelFactory(firebaseAuthRepositoryImpl)
+        firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl,
+        authUseCase: AuthUseCase
+    ): AuthViewModelFactory = AuthViewModelFactory(firebaseAuthRepositoryImpl, authUseCase)
 
     @Singleton
     @Provides

@@ -21,7 +21,11 @@ class PhoneNumberVisualTransformation(
         return TransformedText(AnnotatedString(transformation.formatted ?: ""), object :
             OffsetMapping {
             override fun originalToTransformed(offset: Int): Int {
-                return transformation.originalToTransformed[offset]
+                return if (offset < 0 || offset >= transformation.originalToTransformed.size) {
+                    0
+                } else {
+                    transformation.originalToTransformed[offset]
+                }
             }
             override fun transformedToOriginal(offset: Int): Int {
                 return transformation.transformedToOriginal[offset]
