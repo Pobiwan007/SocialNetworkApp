@@ -1,5 +1,7 @@
 package com.social2023Network.presentation
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -8,10 +10,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.social2023Network.R
 import com.social2023Network.databinding.ActivityMainBinding
+import com.social2023Network.util.ResourceProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ResourceProvider {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -38,6 +41,14 @@ class MainActivity : AppCompatActivity() {
             navGraph.setStartDestination(R.id.signFlowFragment)
         }
         navController.graph = navGraph
+    }
+
+    override fun getActivityReference(): Activity {
+        return this
+    }
+
+    override fun getActivityContext(): Context {
+        return this.getActivityContext()
     }
 
 }

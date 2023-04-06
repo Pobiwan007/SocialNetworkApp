@@ -17,6 +17,7 @@ interface FirebaseAuthRepository {
         callback: AuthCallback?
     )
 
+    suspend fun sendVerificationCode(phoneNumber: String): Boolean
     /**
      * Callback interface for handling authentication events.
      */

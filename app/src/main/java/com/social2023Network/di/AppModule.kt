@@ -1,5 +1,6 @@
 package com.social2023Network.di
 
+import android.app.Activity
 import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.data.repository.FirebaseAuthRepositoryImpl
 import com.social2023Network.data.repository.HomeRepositoryImpl
@@ -9,6 +10,7 @@ import com.social2023Network.presentation.BaseApplication
 import com.social2023Network.presentation.ui.auth.AuthViewModelFactory
 import com.social2023Network.presentation.ui.home.HomeViewModelFactory
 import com.social2023Network.presentation.ui.util.DialogManager
+import com.social2023Network.util.ResourceProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,9 +60,10 @@ class AppModule {
     @Singleton
     @Provides
     fun provideFirebaseAuthRepositoryImpl(
-        firebaseManager: FirebaseManager
+        firebaseManager: FirebaseManager,
+        resourceProvider: ResourceProvider
     ): FirebaseAuthRepositoryImpl{
-        return FirebaseAuthRepositoryImpl(firebaseManager)
+        return FirebaseAuthRepositoryImpl(firebaseManager, resourceProvider)
     }
 
 
@@ -83,4 +86,10 @@ class AppModule {
     @Singleton
     @Provides
     fun provideAuthUseCase(): AuthUseCase = AuthUseCase()
+
+    @Singleton
+    @Provides
+    fun provideResourceProvider(activity: Activity): ResourceProvider{
+        return activity as ResourceProvider
+    }
 }

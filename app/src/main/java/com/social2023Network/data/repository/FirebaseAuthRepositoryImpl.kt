@@ -1,22 +1,27 @@
 package com.social2023Network.data.repository
 
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.data.network.RetrofitClient
 import com.social2023Network.domain.base.FirebaseAuthRepository
 import com.social2023Network.domain.model.countries.CountriesResponse
 import com.social2023Network.util.CoroutineProvider
+import com.social2023Network.util.ResourceProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import retrofit2.await
-import retrofit2.awaitResponse
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
-    private val firebaseManager: FirebaseManager
-    ): FirebaseAuthRepository, CoroutineProvider {
+    private val firebaseManager: FirebaseManager,
+    private val resourceProvider: ResourceProvider
+): FirebaseAuthRepository, CoroutineProvider {
 
     override suspend fun loginWithPhoneNumber(
         phoneNumber: String?,
@@ -43,6 +48,34 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             } ?: callback?.onLoginFailure(NullPointerException("User is null"))
         } catch (e: Exception) {
             callback?.onLoginFailure(e)
+        }
+    }
+
+    override suspend fun sendVerificationCode(phoneNumber: String): Boolean = withContext(Dispatchers.IO){
+        return@withContext try {
+            // Call Firebase Auth to send verification code
+            val options = PhoneAuthOptions.newBuilder(firebaseManager.getFirebaseAuthentication())
+                .setPhoneNumber(phoneNumber)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(resourceProvider.getActivityReference()) // Pass your activity reference here
+                .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    // Handle verification state changes
+                    // ...
+                    override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onVerificationFailed(p0: FirebaseException) {
+                        TODO("Not yet implemented")
+                    }
+                })
+                .build()
+            PhoneAuthProvider.verifyPhoneNumber(options)
+            true
+        } catch (e: Exception) {
+            // Handle error
+            e.printStackTrace()
+            false
         }
     }
 

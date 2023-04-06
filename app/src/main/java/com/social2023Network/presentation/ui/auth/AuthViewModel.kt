@@ -70,6 +70,9 @@ class AuthViewModel @Inject constructor(
             countryFlagIcon = newFlagIconValue
     }
 
+    suspend fun sendVerificationCode() = withContext(Dispatchers.IO){
+        firebaseAuthRepositoryImpl.sendVerificationCode(phoneNumber)
+    }
     suspend fun updatePhoneNumber(input: String) {
         try {
             if(authUseCase.isPhoneNumberAvailable(input)){
