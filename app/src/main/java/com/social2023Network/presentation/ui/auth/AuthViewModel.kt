@@ -1,5 +1,6 @@
 package com.social2023Network.presentation.ui.auth
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -71,7 +72,7 @@ class AuthViewModel @Inject constructor(
     }
 
     suspend fun sendVerificationCode() = withContext(Dispatchers.IO){
-        firebaseAuthRepositoryImpl.sendVerificationCode(phoneNumber)
+        Log.e("VERCODE",firebaseAuthRepositoryImpl.sendVerificationCode(phoneNumber).toString())
     }
     suspend fun updatePhoneNumber(input: String) {
         try {

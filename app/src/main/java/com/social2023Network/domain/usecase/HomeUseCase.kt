@@ -1,10 +1,10 @@
 package com.social2023Network.domain.usecase
 
-import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
+import com.social2023Network.presentation.MainActivity
 import com.social2023Network.presentation.ui.theme.pink
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -49,7 +49,7 @@ class HomeUseCase {
         }
     }
 
-    suspend fun convertUriToFileExtension(uri: Uri, context: Context) : String? = withContext(Dispatchers.Default){
-        MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(uri))
+    suspend fun convertUriToFileExtension(uri: Uri) : String? = withContext(Dispatchers.Default){
+        MimeTypeMap.getSingleton().getExtensionFromMimeType(MainActivity.instance.contentResolver.getType(uri))
     }
 }

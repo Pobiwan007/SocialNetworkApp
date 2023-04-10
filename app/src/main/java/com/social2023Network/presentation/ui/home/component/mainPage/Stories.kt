@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.social2023Network.R
 import com.social2023Network.domain.model.story.Story
 import com.social2023Network.presentation.ui.home.component.util.CircleImage
-import com.social2023Network.presentation.ui.home.component.util.ImageResource
+import com.social2023Network.presentation.ui.util.component.ImageResource
 
 @Composable
 fun ItemStory(items: List<Story>) {

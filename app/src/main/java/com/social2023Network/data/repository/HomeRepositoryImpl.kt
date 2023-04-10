@@ -71,7 +71,6 @@ class HomeRepositoryImpl @Inject constructor(
 
     override suspend fun createPost(
         post: Post,
-        context: Context,
         listUri: SnapshotStateList<Uri?>,
     ) {
         try {
@@ -83,10 +82,10 @@ class HomeRepositoryImpl @Inject constructor(
             // Convert Uri list to String list
             if (listUri.isNotEmpty()) {
                 val imagePaths = listUri.map { uri ->
-                    val fileExt = homeUseCase.convertUriToFileExtension(uri!!, context)
+                    val fileExt = homeUseCase.convertUriToFileExtension(uri!!)
                     val fileName = "${System.currentTimeMillis()}.$fileExt"
                     val uploadTask = storageRef.child(fileName).putFile(uri)
-                    dialogManager.showProgressDialog(uploadTask, context)
+                    dialogManager.showProgressDialog(uploadTask)
                     // Await for the upload to finish and return the image path
                     uploadTask.await()
                     fileName

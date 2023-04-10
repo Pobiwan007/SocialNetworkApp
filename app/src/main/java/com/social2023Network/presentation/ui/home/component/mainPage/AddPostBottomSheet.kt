@@ -32,7 +32,7 @@ import coil.compose.AsyncImage
 import com.social2023Network.R
 import com.social2023Network.domain.model.post.Post
 import com.social2023Network.presentation.ui.home.HomeViewModel
-import com.social2023Network.presentation.ui.home.component.util.ImageResource
+import com.social2023Network.presentation.ui.util.component.ImageResource
 import com.social2023Network.presentation.ui.theme.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope

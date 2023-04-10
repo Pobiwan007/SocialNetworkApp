@@ -18,6 +18,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit_number_phone">Send code</string>
+    <string name="auth_text">To authorize, enter your phone number, confirm the Recaptcha and enter the verification code</string>
+    <string name="phone_number_title">Phone number</string>
 
 
 </resources>

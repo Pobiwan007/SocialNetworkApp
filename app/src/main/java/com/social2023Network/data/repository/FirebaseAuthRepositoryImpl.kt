@@ -1,5 +1,6 @@
 package com.social2023Network.data.repository
 
+import android.util.Log
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
@@ -8,8 +9,8 @@ import com.social2023Network.data.firebase.FirebaseManager
 import com.social2023Network.data.network.RetrofitClient
 import com.social2023Network.domain.base.FirebaseAuthRepository
 import com.social2023Network.domain.model.countries.CountriesResponse
+import com.social2023Network.presentation.MainActivity
 import com.social2023Network.util.CoroutineProvider
-import com.social2023Network.util.ResourceProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val firebaseManager: FirebaseManager,
-    private val resourceProvider: ResourceProvider
+    //private val resourceProvider: ResourceProvider
 ): FirebaseAuthRepository, CoroutineProvider {
 
     override suspend fun loginWithPhoneNumber(
@@ -57,16 +58,16 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             val options = PhoneAuthOptions.newBuilder(firebaseManager.getFirebaseAuthentication())
                 .setPhoneNumber(phoneNumber)
                 .setTimeout(60L, TimeUnit.SECONDS)
-                .setActivity(resourceProvider.getActivityReference()) // Pass your activity reference here
+                .setActivity(MainActivity.instance) // Pass your activity reference here
                 .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     // Handle verification state changes
                     // ...
                     override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                        TODO("Not yet implemented")
+                        Log.e("FirebaseAuth", p0.smsCode.toString())
                     }
 
                     override fun onVerificationFailed(p0: FirebaseException) {
-                        TODO("Not yet implemented")
+                        Log.e("FirebaseAuth", "failed${p0.printStackTrace()}")
                     }
                 })
                 .build()

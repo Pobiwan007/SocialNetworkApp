@@ -30,7 +30,6 @@ class FragmentHome : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.setContext(requireContext())
         return ComposeView(requireContext()).apply {
             setContent {
                 HomeScreen(
@@ -43,11 +42,11 @@ class FragmentHome : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLocationToViewModel()
-        viewModel.permissionsManager = permissionsManager
     }
 
     private fun setLocationToViewModel(){
         permissionsManager = PermissionsManager(this, dialogManager)
+        viewModel.permissionsManager = permissionsManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             permissionsManager.requestLocationPermission()
             val location = permissionsManager.getLocation()

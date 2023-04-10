@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.social2023Network.R
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.animePage.SearchField
-import com.social2023Network.presentation.ui.home.component.util.ImageResource
+import com.social2023Network.presentation.ui.util.component.ImageResource
 
 @Composable
 fun MainPage(viewModel: HomeViewModel) {

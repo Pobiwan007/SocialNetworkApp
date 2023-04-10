@@ -1,6 +1,5 @@
 package com.social2023Network.presentation.ui.home.component.mainPage
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,8 +14,8 @@ import com.social2023Network.domain.model.post.Post
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.animePage.PostItemRow
 import com.social2023Network.presentation.ui.home.component.util.PosterImage
-import com.social2023Network.presentation.ui.home.component.util.TextDesc
-import com.social2023Network.presentation.ui.home.component.util.TextTitle
+import com.social2023Network.presentation.ui.util.component.TextDesc
+import com.social2023Network.presentation.ui.util.component.TextTitle
 
 @Composable
 fun Posts(post: Post, homeViewModel: HomeViewModel) {

@@ -55,7 +55,7 @@ class PermissionsManager(
         }
         if (permissionStatus.contains(PackageManager.PERMISSION_DENIED)) {
             if(fragment.shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)){
-                dialogManager.showPermissionSettingsDialog(fragment.requireContext())
+                dialogManager.showPermissionSettingsDialog()
             } else
                  requestPermissions()
         } else {

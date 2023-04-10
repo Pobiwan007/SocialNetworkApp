@@ -10,7 +10,6 @@ interface HomeRepository {
     suspend fun getPosts() : Flow<Result<List<Post>>>
     suspend fun createPost(
         post: Post,
-        context: Context,
         listUri: SnapshotStateList<Uri?>,
     )
 }

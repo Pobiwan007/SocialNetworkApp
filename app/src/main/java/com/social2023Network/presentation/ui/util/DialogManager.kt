@@ -11,10 +11,12 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.storage.UploadTask
+import com.social2023Network.presentation.MainActivity
 
 class DialogManager{
 
-    fun showPermissionSettingsDialog(context: Context) {
+    private val context: Context = MainActivity.instance
+    fun showPermissionSettingsDialog() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Permission Required")
         builder.setMessage("The app requires permission to read external storage. Please grant the permission in the app settings.")
@@ -28,7 +30,7 @@ class DialogManager{
         builder.show()
     }
 
-    fun showProgressDialog(taskSnapshot: UploadTask, context: Context) {
+    fun showProgressDialog(taskSnapshot: UploadTask) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Uploading...")
         builder.setCancelable(false)

@@ -1,7 +1,5 @@
 package com.social2023Network.presentation
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -10,11 +8,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.social2023Network.R
 import com.social2023Network.databinding.ActivityMainBinding
-import com.social2023Network.util.ResourceProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), ResourceProvider {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -22,10 +19,11 @@ class MainActivity : AppCompatActivity(), ResourceProvider {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        instance = this
         setupNavigation()
 
     }
+
 
     private fun setupNavigation() {
         val navHostFragment =
@@ -43,12 +41,9 @@ class MainActivity : AppCompatActivity(), ResourceProvider {
         navController.graph = navGraph
     }
 
-    override fun getActivityReference(): Activity {
-        return this
-    }
 
-    override fun getActivityContext(): Context {
-        return this.getActivityContext()
+    companion object {
+        lateinit var instance: MainActivity
     }
 
 }

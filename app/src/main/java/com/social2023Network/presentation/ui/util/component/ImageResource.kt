@@ -1,4 +1,4 @@
-package com.social2023Network.presentation.ui.home.component.util
+package com.social2023Network.presentation.ui.util.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -11,15 +11,19 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ImageResource(id : Int, size: Dp, onImageClicked : () -> Unit) {
+fun ImageResource(id: Int, size: Dp, onImageClicked: () -> Unit) {
+    val clickable = onImageClicked != {}
     Image(
         painter = painterResource(id = id),
         contentDescription = null,
-        modifier = Modifier
+        modifier = if (clickable) Modifier
             .size(size)
             .padding(5.dp)
             .clickable {
                 onImageClicked()
             }
+        else Modifier
+            .size(size)
+            .padding(5.dp)
     )
 }

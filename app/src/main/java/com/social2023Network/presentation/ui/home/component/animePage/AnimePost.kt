@@ -25,6 +25,9 @@ import com.social2023Network.R
 import com.social2023Network.domain.model.anime.AnimeEntity
 import com.social2023Network.presentation.ui.home.HomeViewModel
 import com.social2023Network.presentation.ui.home.component.util.*
+import com.social2023Network.presentation.ui.util.component.TextCursor
+import com.social2023Network.presentation.ui.util.component.TextDesc
+import com.social2023Network.presentation.ui.util.component.TextTitle
 import com.social2023Network.util.AllApi
 
 @Composable
@@ -186,7 +189,7 @@ fun PostItemRow(
             horizontalAlignment = Alignment.End,
             modifier = Modifier.padding(3.dp)
         ) {
-            TextTitle(textTitle)
+            TextTitle(textTitle, 1)
             TextCursor(
                 text = textDate,
             )
