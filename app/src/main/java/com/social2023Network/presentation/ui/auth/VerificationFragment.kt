@@ -8,15 +8,16 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.social2023Network.presentation.ui.util.component.TextTitle
 
-class SignUpFragment: Fragment() {
+class VerificationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return ComposeView(requireContext()).apply { 
-            setContent { 
+        return ComposeView(requireContext()).apply {
+            setContent {
                 TextTitle(text = "Sign UP")
-            }        }
+            }
+        }
     }
 }

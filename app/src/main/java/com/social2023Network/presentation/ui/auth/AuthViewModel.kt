@@ -1,10 +1,10 @@
 package com.social2023Network.presentation.ui.auth
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.social2023Network.data.repository.FirebaseAuthRepositoryImpl
@@ -23,7 +23,8 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl,
     private val authUseCase: AuthUseCase
-    ) : ViewModel() {
+) : ViewModel() {
+
 
     var phoneNumber by mutableStateOf("")
         private set
@@ -37,6 +38,8 @@ class AuthViewModel @Inject constructor(
         MutableStateFlow(listOf())
     val countryResponseApiState = _countryResponseApiState.asStateFlow()
 
+    var mutableIsVerifyCodeSend = MutableLiveData<Boolean>()
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val userNameHasError: StateFlow<Boolean> =
         snapshotFlow { phoneNumber }
@@ -46,6 +49,7 @@ class AuthViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = false
             )
+
     init {
         getCountries()
     }
@@ -65,23 +69,29 @@ class AuthViewModel @Inject constructor(
             }
     }
 
-    private suspend fun getCountryFlagIconByNumberCode(numberCode: String) = withContext(Dispatchers.Default){
-        val newFlagIconValue = authUseCase.getCountryFlagIconByNumberCode(numberCode, _mutableCountryResponseData.value)
-        if(newFlagIconValue.isNotEmpty())
-            countryFlagIcon = newFlagIconValue
+    private suspend fun getCountryFlagIconByNumberCode(numberCode: String) =
+        withContext(Dispatchers.Default) {
+            val newFlagIconValue = authUseCase.getCountryFlagIconByNumberCode(
+                numberCode,
+                _mutableCountryResponseData.value
+            )
+            if (newFlagIconValue.isNotEmpty())
+                countryFlagIcon = newFlagIconValue
+        }
+
+    suspend fun sendVerificationCode() = withContext(Dispatchers.IO) {
+        if ("^\\+\\d{10,13}\$".toRegex().containsMatchIn(phoneNumber))
+            mutableIsVerifyCodeSend.value =
+                firebaseAuthRepositoryImpl.sendVerificationCode(phoneNumber)
     }
 
-    suspend fun sendVerificationCode() = withContext(Dispatchers.IO){
-        Log.e("VERCODE",firebaseAuthRepositoryImpl.sendVerificationCode(phoneNumber).toString())
-    }
     suspend fun updatePhoneNumber(input: String) {
         try {
-            if(authUseCase.isPhoneNumberAvailable(input)){
+            if (authUseCase.isPhoneNumberAvailable(input)) {
                 phoneNumber = input
                 getCountryFlagIconByNumberCode(input)
             }
-        }
-        catch (e: IndexOutOfBoundsException){
+        } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
     }

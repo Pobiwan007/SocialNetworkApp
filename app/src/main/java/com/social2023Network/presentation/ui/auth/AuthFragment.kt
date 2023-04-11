@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.social2023Network.R
+import com.social2023Network.presentation.extensions.navigateSafely
 import com.social2023Network.presentation.ui.auth.component.MainAuthScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,10 +25,18 @@ class AuthFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        initNavigateToVerificationFragment()
         return ComposeView(requireContext()).apply {
             setContent {
                 MainAuthScreen(authViewModel = viewModel)
             }
+        }
+    }
+
+    private fun initNavigateToVerificationFragment(){
+        viewModel.mutableIsVerifyCodeSend.observe(viewLifecycleOwner){
+            if(it)
+                findNavController().navigateSafely(R.id.action_authFragment_to_verificationFragment)
         }
     }
 }
