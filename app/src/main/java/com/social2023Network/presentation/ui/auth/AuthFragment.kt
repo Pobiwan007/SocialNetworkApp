@@ -34,9 +34,7 @@ class AuthFragment: Fragment() {
     }
 
     private fun initNavigateToVerificationFragment(){
-        viewModel.mutableIsVerifyCodeSend.observe(viewLifecycleOwner){
-            if(it)
-                findNavController().navigateSafely(R.id.action_authFragment_to_verificationFragment)
-        }
+        if(viewModel.isVerifyCodeSend.value)
+            findNavController().navigateSafely(R.id.action_authFragment_to_verificationFragment)
     }
 }
