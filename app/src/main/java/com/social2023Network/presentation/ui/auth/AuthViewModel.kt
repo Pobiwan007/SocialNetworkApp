@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.social2023Network.data.repository.FirebaseAuthRepositoryImpl
@@ -41,7 +40,8 @@ class AuthViewModel @Inject constructor(
         MutableStateFlow(listOf())
     val countryResponseApiState = _countryResponseApiState.asStateFlow()
 
-    var mutableIsVerifyCodeSend = MutableLiveData<Boolean>()
+    private var _mutableIsVerifyCodeSend = MutableStateFlow(false)
+    val isVerifyCodeSend = _mutableIsVerifyCodeSend.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val userNameHasError: StateFlow<Boolean> =
@@ -84,7 +84,7 @@ class AuthViewModel @Inject constructor(
 
     suspend fun sendVerificationCode() = withContext(Dispatchers.IO) {
         if ("^\\+\\d{10,13}\$".toRegex().containsMatchIn(phoneNumber))
-            mutableIsVerifyCodeSend.value =
+            _mutableIsVerifyCodeSend.value =
                 firebaseAuthRepositoryImpl.sendVerificationCode(phoneNumber)
     }
 
