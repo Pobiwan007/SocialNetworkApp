@@ -25,12 +25,16 @@ class AuthFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        initNavigateToVerificationFragment()
         return ComposeView(requireContext()).apply {
             setContent {
                 MainAuthScreen(authViewModel = viewModel)
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initNavigateToVerificationFragment()
     }
 
     private fun initNavigateToVerificationFragment(){

@@ -20,6 +20,7 @@
     <string name="submit_number_phone">Send code</string>
     <string name="auth_text">To authorize, enter your phone number, confirm the Recaptcha and enter the verification code</string>
     <string name="phone_number_title">Phone number</string>
+    <string name="text_verification_page">To sign in enter the verification code from message</string>
 
 
 </resources>

@@ -29,6 +29,9 @@ class AuthViewModel @Inject constructor(
     var phoneNumber by mutableStateOf("")
         private set
 
+    var verificationCode by mutableStateOf("")
+        private set
+
     var countryFlagIcon by mutableStateOf("")
         private set
 
